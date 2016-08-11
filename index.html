@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My Calorie Journal</title>
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/jquery-ui.min.css">
+	</head>
+	<body>
+		<header>
+			<div>
+				<h1 class="hamburger-icon">&#9776;</h1>
+			</div>
+			<div>
+				<h1>My Calorie Tracker</h1>
+			</div>
+		</header>
+		<section class="journal">
+			<h3 class="welcome-message">Select an existing daily journal or start a new daily journal!</h3>
+		</section>
+		<aside class="sidebar">
+			<div>
+				<h2>Daily Calorie Journals</h2>
+				<ul class="date-list"></ul>
+			</div>
+			<div class="new-date">
+				<input type="hidden" id="datepicker">
+				<p>Add Journal for New Date <span class="calendar-button">+</span></p>
+			</div>
+		</aside>
+		<footer>
+			<p>Powered by <a href="https://www.nutritionix.com/api">Nutritionix API</a></p>
+		</footer>
+	</body>
+	<script type="text/template" id="list-template">
+		<div>
+			<h3 class="date-remove">X</h3>
+		</div>
+		<div class="journal-index">
+			<h3 class="date-entry"><%= dateName %></h3>
+			<p class="calorie-total">Total: <%= totalCalories %></p>
+		</div>
+	</script>
+	<script type="text/template" id="journal-template">
+		<div>
+			<h2><%= dateName %></h2>
+			<input type="text" placeholder="Add food item or meal!" id="food-input">
+			<ul class="search-results"></ul>
+		</div>
+		<div>
+			<h3>Daily Entries</h3>
+			<ul class="food-list"></ul>
+			<h4><span>+</span>Custom Entry</h4>
+		</div>
+		<div>
+			<h3>Daily Calorie Total: <%= totalCalories %></h3>
+		</div>
+	</script>
+	<script type="text/template" id="food-item-template">
+		<div>
+			<h5 class="entry-remove">X</h5>
+		</div>
+		<div>
+			<p class="food-item"></p>
+		</div>
+		<div>
+			<p class="food-calories"></p>
+		</div>
+	</script>
+	<script src="js/libs/jquery/dist/jquery.js"></script>
+	<script src="js/libs/jquery-ui/jquery-ui.min.js"></script>
+	<script src="js/libs/underscore/underscore.js"></script>
+	<script src="js/libs/backbone/backbone.js"></script>
+	<script src="js/libs/backbone.localstorage/backbone.localStorage.js"></script>
+	<script src="js/models/dailyjournal.js"></script>
+	<script src="js/collections/journals.js"></script>
+	<script src="js/views/listview.js"></script>
+	<script src="js/views/calendarview.js"></script>
+	<script src="js/views/sidebarview.js"></script>
+	<script src="js/views/journalview.js"></script>
+	<script src="js/views/searchview.js"></script>
+	<script src="js/views/appview.js"></script>
+	<script src="js/app.js"></script>
+</html>
