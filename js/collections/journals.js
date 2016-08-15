@@ -26,10 +26,12 @@ app.JournalList = Backbone.Collection.extend({
 
 	},
 
+	// Converts date object to number to be used by comparator function
 	createDateComparator: function(date) {
 		return Date.parse(date);
 	},
 
+	// Compares dateComparators and orders them by most recent date first
 	comparator: function(journal) {
 		return -journal.get('dateComparator');
 	}

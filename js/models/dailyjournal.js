@@ -1,5 +1,6 @@
 var app = app || {};
 
+// Food Entry model for individual entries
 app.FoodEntry = Backbone.Model.extend({
 	defaults: {
 		foodName: '',
@@ -8,6 +9,7 @@ app.FoodEntry = Backbone.Model.extend({
 	}
 });
 
+// Complete journal model
 app.DailyJournal = Backbone.Model.extend({
 	defaults: {
 		dateComparator: 0,
@@ -15,6 +17,8 @@ app.DailyJournal = Backbone.Model.extend({
 		totalCalories: 0
 	},
 
+	// Returns the number that should be used as next entry
+	// from the number of food entries currently in model
 	determineEntryNumber: function() {
 		var i = 1;
 		var entryString = 'entry' + i.toString();
@@ -27,6 +31,9 @@ app.DailyJournal = Backbone.Model.extend({
 		return i;
 	},
 
+	// Adds a new food entry for a specific food item by
+	// nesting a FoodEntry model within the DailyJournal model.
+	// Updates total calories count.
 	appendFoodEntry: function(name, calories) {
 		var number = this.determineEntryNumber();
 		var entryString = 'entry' + (number);

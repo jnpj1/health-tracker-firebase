@@ -34,6 +34,8 @@ app.ListView = Backbone.View.extend({
 		this.$el.remove();
 	},
 
+	// Trigger events to remove current journal view and to create
+	// view for selected date
 	triggerJournalEdit: function() {
 		app.vent.trigger('removeJournal', this.model);
 		app.vent.trigger('editJournal', this.model);

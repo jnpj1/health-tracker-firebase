@@ -2,6 +2,7 @@ var app = app || {};
 
 app.vent = _.extend({}, Backbone.Events);
 
+// Overall AppView
 app.AppView = Backbone.View.extend({
 	el: 'body',
 
@@ -38,6 +39,9 @@ app.AppView = Backbone.View.extend({
 		this.$('.journal').html(newJournal.render().el);
 	},
 
+	// Parse AJAX results to form HTML string of list item
+	// Save results to local storage for later retrieval of details
+	// of selected item(s)
 	addResults: function(data) {
 		var parsedResult, calories, brandName, serving;
 		var results = [];
@@ -67,6 +71,7 @@ app.AppView = Backbone.View.extend({
 		localStorage.setItem('results', JSON.stringify(results));
 	},
 
+	// AJAX function with done and fail callbacks
 	foodQuery: function(query) {
 		var triggerObject = {};
 		_.extend(triggerObject, Backbone.Events);
