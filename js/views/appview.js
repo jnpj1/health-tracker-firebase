@@ -36,11 +36,12 @@ app.AppView = Backbone.View.extend({
 		$('.journal').html(journal.render().el);
 	},
 
-	parseResults: function(data) {
-		var parsedResult, calories, brandName, serving, HTMLString;
+	addResults: function(data) {
+		var parsedResult, calories, brandName, serving;
 		var results = [];
 
-		$('.search-results').html('');
+		/*$('.search-results').html('');*/
+		app.vent.trigger('updateSearch');
 
 		$.each(data.hits, function(index, item) {
 			if (item.fields.brand_name === 'USDA') {
@@ -68,7 +69,7 @@ app.AppView = Backbone.View.extend({
 	foodQuery: function(query) {
 		var triggerObject = {};
 		_.extend(triggerObject, Backbone.Events);
-		triggerObject.bind('parseResults', this.parseResults, this);
+		triggerObject.bind('addResults', this.addResults, this);
 
 		var nutritionixURL = 'https://api.nutritionix.com/v1_1/search/' + query +
 		'?fields=item_name%2Cbrand_name%2Cnf_calories&appId=6962db3c&appKey=' +
@@ -78,7 +79,7 @@ app.AppView = Backbone.View.extend({
 			url: nutritionixURL
 		})
 		.done(function(data) {
-			triggerObject.trigger('parseResults', data);
+			triggerObject.trigger('addResults', data);
 		})
 		.fail(function() {
 

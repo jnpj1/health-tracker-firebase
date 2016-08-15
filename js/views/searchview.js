@@ -10,7 +10,7 @@ app.SearchView = Backbone.View.extend({
 	},
 
 	initialize: function() {
-
+		app.vent.on('updateSearch', this.removeListing, this);
 	},
 
 	render: function(itemString) {
@@ -19,7 +19,12 @@ app.SearchView = Backbone.View.extend({
 	},
 
 	addFoodEntry: function() {
+		var index = this.$el.index();
 		console.log('addfoodentry triggered');
-		console.log(this);
+		console.log(this.$el.index());
+	},
+
+	removeListing: function() {
+		this.remove();
 	}
 });
