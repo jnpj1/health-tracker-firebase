@@ -20,8 +20,7 @@ app.SearchView = Backbone.View.extend({
 
 	addFoodEntry: function() {
 		var index = this.$el.index();
-		console.log('addfoodentry triggered');
-		console.log(this.$el.index());
+		app.vent.trigger('addFoodEntry', index);
 	},
 
 	removeListing: function() {

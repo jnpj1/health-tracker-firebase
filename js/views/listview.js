@@ -35,6 +35,7 @@ app.ListView = Backbone.View.extend({
 	},
 
 	triggerJournalEdit: function() {
+		app.vent.trigger('removeJournal', this.model);
 		app.vent.trigger('editJournal', this.model);
 	}
 });

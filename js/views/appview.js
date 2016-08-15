@@ -3,6 +3,8 @@ var app = app || {};
 app.vent = _.extend({}, Backbone.Events);
 
 app.AppView = Backbone.View.extend({
+	el: 'body',
+
 	events: {
 		'click .hamburger-icon' : 'app.SidebarView.toggleSidebar',
 	},
@@ -31,16 +33,15 @@ app.AppView = Backbone.View.extend({
 
 	// Function for creating a new journal edit view and rendering it
 	showJournal: function(journal) {
-		var journal = new app.JournalView({model: journal});
+		var newJournal = new app.JournalView({model: journal});
 
-		$('.journal').html(journal.render().el);
+		this.$('.journal').html(newJournal.render().el);
 	},
 
 	addResults: function(data) {
 		var parsedResult, calories, brandName, serving;
 		var results = [];
 
-		/*$('.search-results').html('');*/
 		app.vent.trigger('updateSearch');
 
 		$.each(data.hits, function(index, item) {
@@ -84,10 +85,5 @@ app.AppView = Backbone.View.extend({
 		.fail(function() {
 
 		});
-	},
-
-	addFood: function(food) {
-		app.vent.trigger('addFood', food);
-		console.log("addFood function triggered in Appview");
 	}
 });

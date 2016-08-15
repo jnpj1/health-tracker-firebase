@@ -1,7 +1,6 @@
 var app = app || {};
 
 app.JournalView = Backbone.View.extend({
-
 	template: _.template($('#journal-template').html()),
 
 	events: {
@@ -12,7 +11,8 @@ app.JournalView = Backbone.View.extend({
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'remove', this.clearJournal);
 
-		app.vent.on('addFood', this.addFood, this);
+		app.vent.on('addFoodEntry', this.addFoodEntry, this);
+		app.vent.on('removeJournal', this.removeJournal, this);
 	},
 
 	render: function() {
@@ -21,8 +21,7 @@ app.JournalView = Backbone.View.extend({
 	},
 
 	clearJournal: function() {
-		this.$el.remove();
-		$('.journal').html('<h3 class="welcome-message">Select an existing ' +
+		this.$el.html('<h3 class="welcome-message">Select an existing ' +
 			'daily journal or start a new daily journal!</h3>');
 	},
 
@@ -30,8 +29,16 @@ app.JournalView = Backbone.View.extend({
 		app.vent.trigger('foodQuery', ($('#food-input').val()));
 	},
 
-	addFood: function(food) {
-		console.log("correctly triggered addfood");
-		console.log(food);
+	addFoodEntry: function(index) {
+		var selectedResult = JSON.parse(localStorage.getItem('results'));
+		var foodName = selectedResult[index].foodName;
+		var calories = selectedResult[index].calories;
+		this.model.appendFoodEntry(foodName, calories);
+	},
+
+	removeJournal: function() {
+		app.vent.off('addFoodEntry', this.addFoodEntry);
+		app.vent.off('removeJournal', this.removeJournal);
+		this.remove();
 	}
 });
