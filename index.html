@@ -50,7 +50,12 @@
 		<div>
 			<h3>Daily Entries</h3>
 			<ul class="food-list"></ul>
-			<h4><span>+</span>Custom Entry</h4>
+			<h4><span class="add-custom-entry">+</span>Custom Entry</h4>
+			<form class="custom-entry-form">
+				<input type="text" placeholder="Enter food description" id="description-input">
+				<input type="text" placeholder="Enter calories" id="calorie-input">
+				<input type="submit" value="Add!">
+			</form>
 		</div>
 		<div>
 			<h3>Daily Calorie Total: <%= totalCalories %></h3>
