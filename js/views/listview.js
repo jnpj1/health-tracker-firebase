@@ -15,7 +15,7 @@ app.ListView = Backbone.View.extend({
 	// call functions for removing model and corresponding DOM element
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
-		this.listenTo(this.model, 'remove', this.removeListItem);
+		this.listenTo(this.model, 'destroy', this.removeListItem);
 	},
 
 	// Renders the list item html with model attributes
@@ -31,7 +31,7 @@ app.ListView = Backbone.View.extend({
 
 	// Removes the list item DOM element when model is removed
 	removeListItem: function() {
-		this.$el.remove();
+		this.remove();
 	},
 
 	// Trigger events to remove current journal view and to create

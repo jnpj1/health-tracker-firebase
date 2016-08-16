@@ -18,6 +18,7 @@ app.JournalView = Backbone.View.extend({
 
 		app.vent.on('addFoodEntry', this.addFoodEntry, this);
 		app.vent.on('removeJournal', this.removeJournal, this);
+		app.vent.on('deleteEntry', this.deleteFoodEntry, this);
 	},
 
 	// Renders template with model attributes
@@ -43,6 +44,21 @@ app.JournalView = Backbone.View.extend({
 		var foodName = selectedResult[index].foodName;
 		var calories = selectedResult[index].calories;
 		this.model.appendFoodEntry(foodName, calories);
+		var entryNumber = this.model.determineEntryNumber();
+		this.createEntryView(entryNumber - 1);
+	},
+
+	// Creates food entry view and adds to DOM
+	createEntryView: function(entry) {
+		var entryModel = 'entry' + entry.toString();
+		var newEntry = new app.EntryView({model: this.model.get(entryModel)});
+
+		this.$('.food-list').prepend(newEntry.render().el);
+	},
+
+	// Calls model function to recalculate total calorie count
+	deleteFoodEntry: function(calories) {
+		this.model.recalculateCalories(calories);
 	},
 
 	// Removes custom event listeners and views when no longer required to display

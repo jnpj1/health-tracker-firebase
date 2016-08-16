@@ -1,5 +1,7 @@
 var app = app || {};
 
+
+// Collection of daily journals
 app.JournalList = Backbone.Collection.extend({
 	model: app.DailyJournal,
 

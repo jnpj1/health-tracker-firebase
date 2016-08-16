@@ -31,12 +31,18 @@ app.DailyJournal = Backbone.Model.extend({
 		return i;
 	},
 
+	// Recalculates total calorie count
+	recalculateCalories: function(calories) {
+		var previousCount = this.get('totalCalories');
+		this.set('totalCalories', (previousCount - calories));
+	},
+
 	// Adds a new food entry for a specific food item by
 	// nesting a FoodEntry model within the DailyJournal model.
 	// Updates total calories count.
 	appendFoodEntry: function(name, calories) {
-		var number = this.determineEntryNumber();
-		var entryString = 'entry' + (number);
+		var number = this.determineEntryNumber().toString();
+		var entryString = 'entry' + number;
 		var roundedCalories = Math.round(calories);
 		var currentCalories = this.get('totalCalories');
 		this.set(entryString, new app.FoodEntry());

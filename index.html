@@ -56,15 +56,15 @@
 			<h3>Daily Calorie Total: <%= totalCalories %></h3>
 		</div>
 	</script>
-	<script type="text/template" id="food-item-template">
+	<script type="text/template" id="entry-template">
 		<div>
 			<h5 class="entry-remove">X</h5>
 		</div>
 		<div>
-			<p class="food-item"></p>
+			<p class="food-item"><%= foodName %></p>
 		</div>
 		<div>
-			<p class="food-calories"></p>
+			<p class="food-calories"><%= calories %></p>
 		</div>
 	</script>
 	<script src="js/libs/jquery/dist/jquery.js"></script>
@@ -78,6 +78,7 @@
 	<script src="js/views/calendarview.js"></script>
 	<script src="js/views/journalview.js"></script>
 	<script src="js/views/searchview.js"></script>
+	<script src="js/views/entryview.js"></script>
 	<script src="js/views/appview.js"></script>
 	<script src="js/app.js"></script>
 </html>
