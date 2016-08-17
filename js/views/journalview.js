@@ -9,7 +9,7 @@ app.JournalView = Backbone.View.extend({
 		'input #food-input' : 'foodQuery',
 		'click .add-custom-entry' : 'toggleCustomForm',
 		'submit .custom-entry-form' : 'addCustomEntry',
-		'blur .custom-entry-form' : 'checkFocus'
+		'blur .custom-entry-form' : 'checkFocus',
 	},
 
 	// Listens to changes in model and updates view.
@@ -95,7 +95,7 @@ app.JournalView = Backbone.View.extend({
 			this.model.appendFoodEntry(customName, customCalories);
 			var entryNumber = this.model.determineEntryNumber();
 			this.createEntryView(entryNumber - 1);
-			app.vent.trigger('toggleForm');
+			this.toggleCustomForm();
 		}
 	},
 
@@ -103,7 +103,9 @@ app.JournalView = Backbone.View.extend({
 	// If focus is no longer on any form elements, triggers an event to hide form.
 	checkFocus: function(event) {
 		setTimeout(function() {
-			if (!event.delegateTarget.contains(document.activeElement)) {
+			var $form = $(event.delegateTarget).find('.custom-entry-form');
+			var id = '#' + $(document.activeElement).attr('id');
+			if (!$form.has(id).length) {
             	app.vent.trigger('toggleForm');
         	}
 		}, 0);
