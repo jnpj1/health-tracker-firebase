@@ -12,11 +12,20 @@ app.AppView = Backbone.View.extend({
 
 	// Listens for events and calls functions for AJAX request,
 	// adding daily journal list items, and adding edit journal view.
+	// Initiates ajax start and stop event callbacks.
 	initialize: function() {
 		this.listenTo(app.Journals, 'add', this.addDateEntry);
 
 		app.vent.on('editJournal', this.showJournal, this);
 		app.vent.on('foodQuery', this.foodQuery, this);
+
+		$(document).ajaxStart(function() {
+			app.vent.trigger('toggleSpinner');
+		});
+
+		$(document).ajaxStop(function() {
+			app.vent.trigger('toggleSpinner');
+		});
 	},
 
 	// Creates a new list item view and appends it to DOM based on
@@ -72,7 +81,8 @@ app.AppView = Backbone.View.extend({
 		localStorage.setItem('results', JSON.stringify(results));
 	},
 
-	// AJAX function with done and fail callbacks
+	// AJAX function with done and fail callbacks.
+	// Uses JQuery ajaxStart function to trigger event for loading spinner display
 	foodQuery: function(query) {
 		var triggerObject = {};
 		_.extend(triggerObject, Backbone.Events);
@@ -89,7 +99,7 @@ app.AppView = Backbone.View.extend({
 			triggerObject.trigger('addResults', data);
 		})
 		.fail(function() {
-
+			app.vent.trigger('ajaxFail');
 		});
 	}
 });

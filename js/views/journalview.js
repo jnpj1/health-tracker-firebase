@@ -14,7 +14,6 @@ app.JournalView = Backbone.View.extend({
 	// Listens to changes in model and updates view.
 	// Triggers function callbacks on custom events to update
 	// model and remove views as appropriate.
-	// Hides custom entry inputs.
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'remove', this.clearJournal);
@@ -23,12 +22,16 @@ app.JournalView = Backbone.View.extend({
 		app.vent.on('removeJournal', this.removeJournal, this);
 		app.vent.on('deleteEntry', this.deleteFoodEntry, this);
 		app.vent.on('toggleForm', this.toggleCustomForm, this);
+		app.vent.on('ajaxFail', this.displayFailure, this);
+		app.vent.on('toggleSpinner', this.toggleSpinner, this);
 	},
 
-	// Renders template with model attributes
+	// Renders template with model attributes.
+	// Hides custom entry form and spinner.
 	render: function() {
 		this.$el.html(this.template(this.model.attributes));
 		this.$('.custom-entry-form').hide();
+		this.$('.spinner').hide();
 		return this;
 	},
 
@@ -40,7 +43,11 @@ app.JournalView = Backbone.View.extend({
 
 	// Triggers custom event when input changes and passes current input value
 	foodQuery: function() {
-		app.vent.trigger('foodQuery', ($('#food-input').val()));
+		var foodValue = this.$('#food-input').val();
+
+		if (foodValue){
+			app.vent.trigger('foodQuery', foodValue);
+		}
 	},
 
 	// Updates model with information from selected food item
@@ -108,5 +115,17 @@ app.JournalView = Backbone.View.extend({
             	app.vent.trigger('toggleForm');
         	}
 		}, 0);
+	},
+
+	// Display a message upon ajax failure
+	displayFailure: function() {
+		var failureHTML = '<li class="search-failure">Unable to load' +
+			'Nutritionix results</li>';
+		this.$('.search-results').append(failureHTML);
+	},
+
+	// Toggle visibility of spinner
+	toggleSpinner: function() {
+		this.$('.spinner').toggle();
 	}
 });
