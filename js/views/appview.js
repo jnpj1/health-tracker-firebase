@@ -10,7 +10,8 @@ app.AppView = Backbone.View.extend({
 		'click .hamburger-icon' : 'app.SidebarView.toggleSidebar',
 	},
 
-	// Add new list item view when new daily journal is added to collection
+	// Listens for events and calls functions for AJAX request,
+	// adding daily journal list items, and adding edit journal view.
 	initialize: function() {
 		this.listenTo(app.Journals, 'add', this.addDateEntry);
 
@@ -18,8 +19,8 @@ app.AppView = Backbone.View.extend({
 		app.vent.on('foodQuery', this.foodQuery, this);
 	},
 
-	// Function for creating a new list item view and appending it to DOM
-	// based on its index in collection
+	// Creates a new list item view and appends it to DOM based on
+	// its index in collection
 	addDateEntry: function(date) {
 		var index = date.collection.indexOf(date);
 		var currentListLength = $('.date-list').children().length;
@@ -32,16 +33,16 @@ app.AppView = Backbone.View.extend({
 		}
 	},
 
-	// Function for creating a new journal edit view and rendering it
+	// Creates and renders a new journal edit view
 	showJournal: function(journal) {
 		var newJournal = new app.JournalView({model: journal});
 
 		this.$('.journal').html(newJournal.render().el);
 	},
 
-	// Parse AJAX results to form HTML string of list item
+	// Parse AJAX results to form HTML string of list item.
 	// Save results to local storage for later retrieval of details
-	// of selected item(s)
+	// of selected item(s).
 	addResults: function(data) {
 		var parsedResult, calories, brandName, serving;
 		var results = [];

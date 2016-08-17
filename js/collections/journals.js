@@ -5,6 +5,7 @@ var app = app || {};
 app.JournalList = Backbone.Collection.extend({
 	model: app.DailyJournal,
 
+	// Sets up Backbone Local Storage adapter
 	localStorage: new Backbone.LocalStorage('journals-backbone'),
 
 	// Creates a date string for display in list item

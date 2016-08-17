@@ -4,7 +4,6 @@ var app = app || {};
 app.JournalView = Backbone.View.extend({
 	template: _.template($('#journal-template').html()),
 
-	// Calls foodQuery function when input changes
 	events: {
 		'input #food-input' : 'foodQuery',
 		'click .add-custom-entry' : 'toggleCustomForm',

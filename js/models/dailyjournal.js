@@ -9,7 +9,7 @@ app.FoodEntry = Backbone.Model.extend({
 	}
 });
 
-// Complete journal model
+// Complete daily journal model
 app.DailyJournal = Backbone.Model.extend({
 	defaults: {
 		dateComparator: 0,
@@ -18,7 +18,7 @@ app.DailyJournal = Backbone.Model.extend({
 	},
 
 	// Returns the number that should be used as next entry
-	// from the number of food entries currently in model
+	// based on the number of food entries currently in model
 	determineEntryNumber: function() {
 		var i = 1;
 		var entryString = 'entry' + i.toString();

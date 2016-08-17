@@ -4,6 +4,7 @@ var app = app || {};
 app.ListView = Backbone.View.extend({
 	tagName: 'li',
 
+	// Template for rendering list of daily journals
 	template: _.template($('#list-template').html()),
 
 	events: {
