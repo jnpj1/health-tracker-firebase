@@ -57,15 +57,9 @@ app.JournalView = Backbone.View.extend({
 		var calories = selectedResult[index].calories;
 		this.model.appendFoodEntry(foodName, calories);
 		var entryNumber = this.model.determineEntryNumber();
-		this.createEntryView(entryNumber - 1);
-	},
-
-	// Creates food entry view and adds to DOM
-	createEntryView: function(entry) {
-		var entryModel = 'entry' + entry.toString();
-		var newEntry = new app.EntryView({model: this.model.get(entryModel)});
-
-		this.$('.food-list').prepend(newEntry.render().el);
+		var entryString = 'entry' + (entryNumber - 1).toString();
+		var entryModel = this.model.get(entryString);
+		app.vent.trigger('createEntryView', entryModel);
 	},
 
 	// Calls model function to recalculate total calorie count
@@ -99,8 +93,10 @@ app.JournalView = Backbone.View.extend({
 			alert('Please enter the calorie count of the food item');
 		} else {
 			this.model.appendFoodEntry(customName, customCalories);
-			var entryNumber = this.model.determineEntryNumber();
-			this.createEntryView(entryNumber - 1);
+			var customEntryNumber = this.model.determineEntryNumber();
+			var customEntryString = 'entry' + (customEntryNumber - 1).toString();
+			var customEntryModel = this.model.get(customEntryString);
+			app.vent.trigger('createEntryView', customEntryModel);
 			this.toggleCustomForm();
 		}
 	},

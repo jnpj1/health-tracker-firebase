@@ -10,8 +10,8 @@ app.CalendarView = Backbone.View.extend({
 		'click .calendar-button' : 'showDatepicker'
 	},
 
-	// Initialize variables for use in triggering a custom event
-	// Initialize JQuery UI datepicker and define date select function
+	// Initialize variables for use in triggering a custom event.
+	// Initialize JQuery UI datepicker and define date select function.
 	initialize: function() {
 		var date;
 		var object = {};
@@ -42,8 +42,8 @@ app.CalendarView = Backbone.View.extend({
 		}
 	},
 
-	// Creates a new DailyJournal when date is selected via datepicker
-	// Checks to see if date already exists and alerts if so
+	// Creates a new DailyJournal when date is selected via datepicker.
+	// Checks to see if date already exists and alerts if so.
 	createDailyJournal: function(date) {
 		var attributes = this.newAttributes(date);
 		var newDate = attributes.dateComparator;

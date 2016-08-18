@@ -18,6 +18,7 @@ app.AppView = Backbone.View.extend({
 
 		app.vent.on('editJournal', this.showJournal, this);
 		app.vent.on('foodQuery', this.foodQuery, this);
+		app.vent.on('createEntryView', this.createEntryView, this);
 
 		$(document).ajaxStart(function() {
 			app.vent.trigger('toggleSpinner');
@@ -31,14 +32,15 @@ app.AppView = Backbone.View.extend({
 	// Creates a new list item view and appends it to DOM based on
 	// its index in collection
 	addDateEntry: function(date) {
+		console.log("addDateEntry function called");
 		var index = date.collection.indexOf(date);
-		var currentListLength = $('.date-list').children().length;
+		var currentListLength = this.$('.date-list').children().length;
 		var view = new app.ListView({model: date});
 
 		if ((currentListLength) && (currentListLength > index)) {
-			$('.date-list li').eq(index).before(view.render().el);
+			this.$('.date-list li').eq(index).before(view.render().el);
 		} else {
-			$('.date-list').append(view.render().el);
+			this.$('.date-list').append(view.render().el);
 		}
 	},
 
@@ -46,7 +48,7 @@ app.AppView = Backbone.View.extend({
 	showJournal: function(journal) {
 		var newJournal = new app.JournalView({model: journal});
 
-		this.$('.journal').html(newJournal.render().el);
+		this.$('.journal-info').html(newJournal.render().el);
 	},
 
 	// Parse AJAX results to form HTML string of list item.
@@ -101,5 +103,11 @@ app.AppView = Backbone.View.extend({
 		.fail(function() {
 			app.vent.trigger('ajaxFail');
 		});
+	},
+
+	createEntryView: function(entry) {
+		console.log(entry);
+		var newEntry = new app.EntryView({model: entry});
+		this.$('.food-list').prepend(newEntry.render().el);
 	}
 });

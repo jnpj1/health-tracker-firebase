@@ -30,5 +30,10 @@ app.EntryView = Backbone.View.extend({
 	// Removes view item
 	deleteView: function() {
 		this.remove();
+	},
+
+	logEvent: function(event) {
+		console.log("yo");
+		console.log(event);
 	}
 });

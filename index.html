@@ -16,7 +16,13 @@
 			</div>
 		</header>
 		<section class="journal">
-			<h3 class="welcome-message">Select an existing daily journal or start a new daily journal!</h3>
+			<div class="journal-info">
+				<h3 class="welcome-message">Select an existing daily journal or start a new daily journal!</h3>
+			</div>
+			<div>
+				<h4>Food Entries</h4>
+				<ul class="food-list"></ul>
+			</div>
 		</section>
 		<aside class="sidebar">
 			<div>
@@ -44,22 +50,18 @@
 	<script type="text/template" id="journal-template">
 		<div class="journal-header">
 			<h2><%= dateName %></h2>
+			<h3>Daily Calorie Total: <%= totalCalories %></h3>
 			<input type="text" placeholder="Add food item or meal!" id="food-input">
 			<div class="spinner"><img src="images/spinner.gif"></div>
 			<ul class="search-results"></ul>
 		</div>
 		<div>
-			<h3>Daily Entries</h3>
-			<ul class="food-list"></ul>
 			<h4><span class="add-custom-entry">+</span>Custom Entry</h4>
 			<form class="custom-entry-form">
 				<input type="text" placeholder="Enter food description" id="description-input">
 				<input type="text" placeholder="Enter calories" id="calorie-input">
 				<input type="submit" value="Add!" id="submit-button">
 			</form>
-		</div>
-		<div>
-			<h3>Daily Calorie Total: <%= totalCalories %></h3>
 		</div>
 	</script>
 	<script type="text/template" id="entry-template">
