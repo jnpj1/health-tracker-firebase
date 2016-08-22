@@ -40,4 +40,4 @@ app.JournalList = Backbone.Collection.extend({
 	}
 });
 
-app.Journals = new app.JournalList();
+app.journals = new app.JournalList();

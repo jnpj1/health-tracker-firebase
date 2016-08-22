@@ -37,8 +37,8 @@ app.CalendarView = Backbone.View.extend({
 	// Produces object with attributes based on date information
 	newAttributes: function(date) {
 		return {
-			dateComparator: app.Journals.createDateComparator(date),
-			dateName: app.Journals.createDateString(date)
+			dateComparator: app.journals.createDateComparator(date),
+			dateName: app.journals.createDateString(date)
 		}
 	},
 
@@ -47,12 +47,12 @@ app.CalendarView = Backbone.View.extend({
 	createDailyJournal: function(date) {
 		var attributes = this.newAttributes(date);
 		var newDate = attributes.dateComparator;
-		var checkDate = app.Journals.where({dateComparator: newDate});
+		var checkDate = app.journals.where({dateComparator: newDate});
 
 		if (checkDate.length) {
 			alert('A journal for this date already exists');
 		} else {
-			app.Journals.create(attributes);
+			app.journals.create(attributes);
 		}
 	}
 });

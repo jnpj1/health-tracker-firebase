@@ -14,11 +14,14 @@ app.AppView = Backbone.View.extend({
 	// adding daily journal list items, and adding edit journal view.
 	// Initiates ajax start and stop event callbacks.
 	initialize: function() {
-		this.listenTo(app.Journals, 'add', this.addDateEntry);
+		this.listenTo(app.journals, 'add', this.addDateEntry);
+		this.listenTo(app.journals, 'reset', this.addAllDates);
 
 		app.vent.on('editJournal', this.showJournal, this);
 		app.vent.on('foodQuery', this.foodQuery, this);
 		app.vent.on('createEntryView', this.createEntryView, this);
+
+		app.journals.fetch({reset: true});
 
 		$(document).ajaxStart(function() {
 			app.vent.trigger('toggleSpinner');
@@ -32,7 +35,6 @@ app.AppView = Backbone.View.extend({
 	// Creates a new list item view and appends it to DOM based on
 	// its index in collection
 	addDateEntry: function(date) {
-		console.log("addDateEntry function called");
 		var index = date.collection.indexOf(date);
 		var currentListLength = this.$('.date-list').children().length;
 		var view = new app.ListView({model: date});
@@ -42,6 +44,10 @@ app.AppView = Backbone.View.extend({
 		} else {
 			this.$('.date-list').append(view.render().el);
 		}
+	},
+
+	addAllDates: function() {
+		app.journals.each(this.addDateEntry, this);
 	},
 
 	// Creates and renders a new journal edit view
@@ -106,7 +112,6 @@ app.AppView = Backbone.View.extend({
 	},
 
 	createEntryView: function(entry) {
-		console.log(entry);
 		var newEntry = new app.EntryView({model: entry});
 		this.$('.food-list').prepend(newEntry.render().el);
 	}

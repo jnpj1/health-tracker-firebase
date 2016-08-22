@@ -12,28 +12,24 @@ app.EntryView = Backbone.View.extend({
 
 	// Initializes with listener for model destruction
 	initialize: function() {
-		this.listenTo(this.model, 'destroy', this.deleteView);
+		app.vent.on('removeJournal', this.deleteView, this);
 	},
 
 	// Renders template with model attributes
 	render: function() {
-		this.$el.html(this.template(this.model.attributes));
+		console.log(this.model);
+		this.$el.html(this.template(this.model));
 		return this;
 	},
 
 	// Destroys model and triggers delete entry event
 	deleteEntry: function() {
-		app.vent.trigger('deleteEntry', this.model.get('calories'));
-		this.model.destroy();
+		app.vent.trigger('deleteEntry', this.model);
+		this.deleteView();
 	},
 
 	// Removes view item
 	deleteView: function() {
 		this.remove();
-	},
-
-	logEvent: function(event) {
-		console.log("yo");
-		console.log(event);
 	}
 });

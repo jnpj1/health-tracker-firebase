@@ -24,6 +24,12 @@ app.JournalView = Backbone.View.extend({
 		app.vent.on('toggleForm', this.toggleCustomForm, this);
 		app.vent.on('ajaxFail', this.displayFailure, this);
 		app.vent.on('toggleSpinner', this.toggleSpinner, this);
+
+		// Calls function for adding food entry views if any food
+		// entries currently exist in model.
+		if (this.model.get('entryNumber')){
+			this.addAllFoodEntries(this.model.get('entryNumber'));
+		}
 	},
 
 	// Renders template with model attributes.
@@ -56,21 +62,24 @@ app.JournalView = Backbone.View.extend({
 		var foodName = selectedResult[index].foodName;
 		var calories = selectedResult[index].calories;
 		this.model.appendFoodEntry(foodName, calories);
-		var entryNumber = this.model.determineEntryNumber();
-		var entryString = 'entry' + (entryNumber - 1).toString();
+		var entryNumber = this.model.get('entryNumber');
+		var entryString = 'entry' + entryNumber.toString();
 		var entryModel = this.model.get(entryString);
 		app.vent.trigger('createEntryView', entryModel);
 	},
 
 	// Calls model function to recalculate total calorie count
-	deleteFoodEntry: function(calories) {
-		this.model.recalculateCalories(calories);
+	deleteFoodEntry: function(food) {
+		console.log(food);
+		this.model.recalculateCalories(food.calories);
+		this.model.deleteFoodEntry(food.entryNumber);
 	},
 
 	// Removes custom event listeners and views when no longer required to display
 	removeJournal: function() {
 		app.vent.off('addFoodEntry', this.addFoodEntry);
 		app.vent.off('removeJournal', this.removeJournal);
+		app.vent.off('deleteEntry', this.deleteFoodEntry);
 		this.remove();
 	},
 
@@ -93,8 +102,8 @@ app.JournalView = Backbone.View.extend({
 			alert('Please enter the calorie count of the food item');
 		} else {
 			this.model.appendFoodEntry(customName, customCalories);
-			var customEntryNumber = this.model.determineEntryNumber();
-			var customEntryString = 'entry' + (customEntryNumber - 1).toString();
+			var customEntryNumber = this.model.get('entryNumber');
+			var customEntryString = 'entry' + customEntryNumber.toString();
 			var customEntryModel = this.model.get(customEntryString);
 			app.vent.trigger('createEntryView', customEntryModel);
 			this.toggleCustomForm();
@@ -123,5 +132,16 @@ app.JournalView = Backbone.View.extend({
 	// Toggle visibility of spinner
 	toggleSpinner: function() {
 		this.$('.spinner').toggle();
+	},
+
+	// Loops through existing entries and triggers event to render food item view
+	addAllFoodEntries: function(number) {
+		for (var i = 1; i <= number; i++) {
+			var currentEntry = 'entry' + i.toString();
+			if (this.model.get(currentEntry)) {
+				console.log(this.model.get(currentEntry));
+				app.vent.trigger('createEntryView', this.model.get(currentEntry));
+			}
+		}
 	}
 });
