@@ -4,12 +4,14 @@ var app = app || {};
 app.ListView = Backbone.View.extend({
 	tagName: 'li',
 
+	className: 'journal-list-item',
+
 	// Template for rendering list of daily journals
 	template: _.template($('#list-template').html()),
 
 	events: {
-		'click .date-remove' : 'removeDailyEntry',
-		'click .journal-index' : 'triggerJournalEdit'
+		'click .delete-box' : 'removeDailyEntry',
+		'click .journal-stats' : 'triggerJournalEdit'
 	},
 
 	// At initialization, listen for change and remove events and
@@ -26,8 +28,10 @@ app.ListView = Backbone.View.extend({
 	},
 
 	// Removes the model from Journals collection when 'X' is clicked
+	// Triggers event to remove open journalview
 	removeDailyEntry: function() {
 		this.model.destroy();
+		app.vent.trigger('removeJournal', this.model);
 	},
 
 	// Removes the list item DOM element when model is removed

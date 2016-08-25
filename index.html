@@ -2,49 +2,51 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 		<title>My Calorie Journal</title>
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/jquery-ui.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
 	</head>
 	<body>
 		<header>
-			<div>
+			<div class="hamburger-box">
 				<h1 class="hamburger-icon">&#9776;</h1>
 			</div>
-			<div>
+			<div class="headline-box">
 				<h1>My Calorie Tracker</h1>
 			</div>
 		</header>
+		<aside class="sidebar">
+			<div>
+				<h2 class="sidebar-heading">Daily Calorie Journals</h2>
+				<ul class="date-list"></ul>
+			</div>
+			<div class="new-date">
+				<input type="hidden" id="datepicker">
+				<p class="create-journal">Add Journal for New Date <span class="calendar-button">+</span></p>
+			</div>
+		</aside>
 		<section class="journal">
 			<div class="journal-info">
 				<h3 class="welcome-message">Select an existing daily journal or start a new daily journal!</h3>
 			</div>
 			<div>
-				<h4>Food Entries</h4>
+				<h4 class="food-entry-header">Food Entries</h4>
 				<ul class="food-list"></ul>
 			</div>
 		</section>
-		<aside class="sidebar">
-			<div>
-				<h2>Daily Calorie Journals</h2>
-				<ul class="date-list"></ul>
-			</div>
-			<div class="new-date">
-				<input type="hidden" id="datepicker">
-				<p>Add Journal for New Date <span class="calendar-button">+</span></p>
-			</div>
-		</aside>
 		<footer>
 			<p>Powered by <a href="https://www.nutritionix.com/api">Nutritionix API</a></p>
 		</footer>
 	</body>
 	<script type="text/template" id="list-template">
-		<div>
-			<h3 class="date-remove">X</h3>
+		<div class="journal-stats">
+			<h4 class="date-entry"><%= dateName %></h4>
+			<p class="calorie-total">Total: <%= totalCalories %> calories</p>
 		</div>
-		<div class="journal-index">
-			<h3 class="date-entry"><%= dateName %></h3>
-			<p class="calorie-total">Total: <%= totalCalories %></p>
+		<div class="delete-box" title="Remove Daily Journal">
+			<p class="date-remove">X</p>
 		</div>
 	</script>
 	<script type="text/template" id="journal-template">
@@ -56,7 +58,7 @@
 			<ul class="search-results"></ul>
 		</div>
 		<div>
-			<h4><span class="add-custom-entry">+</span>Custom Entry</h4>
+			<h4>Add Custom Entry <span class="add-custom-entry">+</span></h4>
 			<form class="custom-entry-form">
 				<input type="text" placeholder="Enter food description" id="description-input">
 				<input type="text" placeholder="Enter calories" id="calorie-input">

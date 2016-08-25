@@ -14,12 +14,17 @@ app.AppView = Backbone.View.extend({
 	// adding daily journal list items, and adding edit journal view.
 	// Initiates ajax start and stop event callbacks.
 	initialize: function() {
+		this.$welcomeMessage = this.$('.journal-info').html();
+		this.$('.food-entry-header').hide();
+
 		this.listenTo(app.journals, 'add', this.addDateEntry);
 		this.listenTo(app.journals, 'reset', this.addAllDates);
 
 		app.vent.on('editJournal', this.showJournal, this);
 		app.vent.on('foodQuery', this.foodQuery, this);
 		app.vent.on('createEntryView', this.createEntryView, this);
+		app.vent.on('showWelcomeMessage', this.showWelcomeMessage, this);
+		app.vent.on('deleteEntry', this.toggleFoodEntryHeader, this);
 
 		app.journals.fetch({reset: true});
 
@@ -46,6 +51,7 @@ app.AppView = Backbone.View.extend({
 		}
 	},
 
+	// Calls function to add date entry list view for all journals
 	addAllDates: function() {
 		app.journals.each(this.addDateEntry, this);
 	},
@@ -53,7 +59,6 @@ app.AppView = Backbone.View.extend({
 	// Creates and renders a new journal edit view
 	showJournal: function(journal) {
 		var newJournal = new app.JournalView({model: journal});
-
 		this.$('.journal-info').html(newJournal.render().el);
 	},
 
@@ -111,8 +116,27 @@ app.AppView = Backbone.View.extend({
 		});
 	},
 
+	// Creates and appends view for individual food entry list items
 	createEntryView: function(entry) {
+		this.toggleFoodEntryHeader();
 		var newEntry = new app.EntryView({model: entry});
 		this.$('.food-list').prepend(newEntry.render().el);
+	},
+
+	// Shows welcome message when journal is deleted
+	showWelcomeMessage: function() {
+		this.$('.food-entry-header').hide();
+		this.$('.journal-info').html(this.$welcomeMessage);
+	},
+
+	// Shows food entry header if food entry list items are in DOM
+	toggleFoodEntryHeader: function() {
+		setTimeout(function() {
+			if (this.$('.food-list').children().length) {
+				this.$('.food-entry-header').show();
+			} else {
+				this.$('.food-entry-header').hide();
+			}
+		}, 20);
 	}
 });

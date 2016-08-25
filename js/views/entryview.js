@@ -17,7 +17,6 @@ app.EntryView = Backbone.View.extend({
 
 	// Renders template with model attributes
 	render: function() {
-		console.log(this.model);
 		this.$el.html(this.template(this.model));
 		return this;
 	},

@@ -15,8 +15,9 @@ app.JournalView = Backbone.View.extend({
 	// Triggers function callbacks on custom events to update
 	// model and remove views as appropriate.
 	initialize: function() {
+		console.log("journalview initialized");
 		this.listenTo(this.model, 'change', this.render);
-		this.listenTo(this.model, 'remove', this.clearJournal);
+		this.listenTo(this.model, 'remove', this.resetJournal);
 
 		app.vent.on('addFoodEntry', this.addFoodEntry, this);
 		app.vent.on('removeJournal', this.removeJournal, this);
@@ -41,10 +42,10 @@ app.JournalView = Backbone.View.extend({
 		return this;
 	},
 
-	// Resets journal html when currently selected journal is removed from model
-	clearJournal: function() {
-		this.$el.html('<h3 class="welcome-message">Select an existing ' +
-			'daily journal or start a new daily journal!</h3>');
+	// Triggers event to show welcome message when currently selected
+	// journal is removed from collection
+	resetJournal: function() {
+		app.vent.trigger('showWelcomeMessage');
 	},
 
 	// Triggers custom event when input changes and passes current input value
@@ -70,13 +71,13 @@ app.JournalView = Backbone.View.extend({
 
 	// Calls model function to recalculate total calorie count
 	deleteFoodEntry: function(food) {
-		console.log(food);
 		this.model.recalculateCalories(food.calories);
 		this.model.deleteFoodEntry(food.entryNumber);
 	},
 
 	// Removes custom event listeners and views when no longer required to display
 	removeJournal: function() {
+		console.log("removeJournal triggered");
 		app.vent.off('addFoodEntry', this.addFoodEntry);
 		app.vent.off('removeJournal', this.removeJournal);
 		app.vent.off('deleteEntry', this.deleteFoodEntry);
@@ -90,7 +91,9 @@ app.JournalView = Backbone.View.extend({
 
 	// Adds entry for customized input after validation of description and calories.
 	// Calls functions for appending entry to DOM and hiding custom form.
-	addCustomEntry: function() {
+	addCustomEntry: function(event) {
+		event.preventDefault();
+
 		var customName = this.$('#description-input').val();
 		var customCalories = this.$('#calorie-input').val();
 
@@ -139,7 +142,6 @@ app.JournalView = Backbone.View.extend({
 		for (var i = 1; i <= number; i++) {
 			var currentEntry = 'entry' + i.toString();
 			if (this.model.get(currentEntry)) {
-				console.log(this.model.get(currentEntry));
 				app.vent.trigger('createEntryView', this.model.get(currentEntry));
 			}
 		}
