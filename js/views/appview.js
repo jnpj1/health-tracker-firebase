@@ -24,7 +24,7 @@ app.AppView = Backbone.View.extend({
 		app.vent.on('foodQuery', this.foodQuery, this);
 		app.vent.on('createEntryView', this.createEntryView, this);
 		app.vent.on('showWelcomeMessage', this.showWelcomeMessage, this);
-		app.vent.on('deleteEntry', this.toggleFoodEntryHeader, this);
+		app.vent.on('toggleHeader', this.toggleFoodEntryHeader, this);
 
 		app.journals.fetch({reset: true});
 
@@ -60,6 +60,7 @@ app.AppView = Backbone.View.extend({
 	showJournal: function(journal) {
 		var newJournal = new app.JournalView({model: journal});
 		this.$('.journal-info').html(newJournal.render().el);
+		this.toggleFoodEntryHeader();
 	},
 
 	// Parse AJAX results to form HTML string of list item.
@@ -90,6 +91,10 @@ app.AppView = Backbone.View.extend({
 
 			results.push({foodName: parsedResult, calories: calories});
 		});
+
+		if (results.length === 0) {
+			app.vent.trigger('noResultsFound');
+		}
 
 		localStorage.setItem('results', JSON.stringify(results));
 	},

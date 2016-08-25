@@ -33,6 +33,9 @@ footer {
 	position: absolute;
 	bottom: 0px;
 	right: 10px;
+	color: #441E29;
+	font-size: 12px;
+	background-color: white;
 }
 
 .hamburger-box {
@@ -57,12 +60,13 @@ footer {
 	text-align: center;
 }
 
-.create-journal {
+.create-journal,
+.create-custom-entry {
 	color: #ED5752;
 }
 
 .journal {
-	width: 70%;
+	width: 74%;
 	display: inline-block;
 	vertical-align: top;
 	color: #7F152E;
@@ -96,7 +100,8 @@ footer {
 	padding: 10px;
 }
 
-.calendar-button {
+.calendar-button,
+.custom-button {
 	border-radius: 50px;
 	border: 1px solid #ED5752;
 	padding: 0 4px;
@@ -107,7 +112,114 @@ footer {
 	padding-top: 50px;
 }
 
+.journal-main {
+	padding: 25px 15px 10px;
+	text-align: center;
+}
+
+.search-results-box,
+.spinner-box {
+	position: relative;
+}
+
+.spinner {
+	position: absolute;
+	left: 66%;
+	top: -40px;
+	background-color: white;
+	z-index: 99;
+}
+
+.search-results {
+	position: absolute;
+	left: calc((100% - 250px)/2);
+	top: 0;
+	background-color: white;
+	min-width: 250px;
+}
+
+.search-failure,
+.no-results {
+	padding: 10px 3px;
+	height: 30px;
+	font-size: 14px;
+}
+
+.result {
+	border: 1px solid #7F152E;
+	border-top: 1px dashed #74152E;
+	border-bottom: none;
+	padding: 2px 3px;
+}
+
+.date-header,
+.calorie-header {
+	padding-bottom: 10px;
+}
+
+.journal-custom {
+	text-align: center;
+}
+
+#food-input {
+	width: 250px;
+	text-align: center;
+}
+
+.custom-form-box {
+	padding: 2px;
+	height: 30px;
+}
+
+.journal-entries {
+	padding: 0 20px 10px 20px;
+	height: 53vh;
+	overflow: auto;
+}
+
+.food-entry {
+	display: flex;
+	justify-content: space-between;
+	padding: 5px;
+	color: #441E29;
+	border: 1px solid #7F152E;
+	border-top: 1px dashed #74152E;
+	border-bottom: none;
+}
+
+.food-entry-header {
+	color: #7F152E;
+	border: 1px solid #7F152E;
+	padding: 5px;
+}
+
+.nutritionix-link {
+	color: #441E29;
+}
+
 .calendar-button:hover,
-.delete-box:hover {
+.delete-box:hover,
+.custom-button:hover,
+.entry-remove-box:hover,
+.result:hover {
 	cursor: pointer;
+}
+
+.result:hover,
+.food-entry:hover,
+.journal-list-item:hover {
+	background-color: #ECF9F2;
+}
+
+.result:first-child {
+	border-top: 1px solid #7F152E;
+}
+
+.food-entry:first-child {
+	border-top: none;
+}
+
+.food-entry:last-child,
+.result:last-child {
+	border-bottom: 1px solid #7F152E;
 }

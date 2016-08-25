@@ -31,13 +31,13 @@
 			<div class="journal-info">
 				<h3 class="welcome-message">Select an existing daily journal or start a new daily journal!</h3>
 			</div>
-			<div>
-				<h4 class="food-entry-header">Food Entries</h4>
+			<div class="journal-entries">
+				<h4 class="food-entry-header">Daily Food Entries</h4>
 				<ul class="food-list"></ul>
 			</div>
 		</section>
 		<footer>
-			<p>Powered by <a href="https://www.nutritionix.com/api">Nutritionix API</a></p>
+			<p>Powered by <a class="nutritionix-link" href="https://www.nutritionix.com/api">Nutritionix API</a></p>
 		</footer>
 	</body>
 	<script type="text/template" id="list-template">
@@ -50,31 +50,37 @@
 		</div>
 	</script>
 	<script type="text/template" id="journal-template">
-		<div class="journal-header">
-			<h2><%= dateName %></h2>
-			<h3>Daily Calorie Total: <%= totalCalories %></h3>
-			<input type="text" placeholder="Add food item or meal!" id="food-input">
-			<div class="spinner"><img src="images/spinner.gif"></div>
-			<ul class="search-results"></ul>
+		<div class="journal-main">
+			<h2 class="date-header"><%= dateName %></h2>
+			<h3 class="calorie-header">Daily Calorie Total: <%= totalCalories %></h3>
+			<input type="text" placeholder="Search for food item or meal!" id="food-input">
+			<div class="spinner-box">
+				<img class="spinner" alt="loading spinner" src="images/spinner.gif">
+			</div>
+			<div class="search-results-box">
+				<ul class="search-results"></ul>
+			</div>
 		</div>
-		<div>
-			<h4>Add Custom Entry <span class="add-custom-entry">+</span></h4>
-			<form class="custom-entry-form">
-				<input type="text" placeholder="Enter food description" id="description-input">
-				<input type="text" placeholder="Enter calories" id="calorie-input">
-				<input type="submit" value="Add!" id="submit-button">
-			</form>
+		<div class="journal-custom">
+			<p class="create-custom-entry">Create Custom Entry <span class="custom-button">+</span></p>
+			<div class="custom-form-box">
+				<form class="custom-entry-form">
+					<input type="text" placeholder="Enter food description" id="description-input">
+					<input type="text" placeholder="Enter calories" id="calorie-input">
+					<input type="submit" value="Add!" id="submit-button">
+				</form>
+			</div>
 		</div>
 	</script>
 	<script type="text/template" id="entry-template">
-		<div>
+		<div class="entry-remove-box">
 			<h5 class="entry-remove">X</h5>
 		</div>
-		<div>
+		<div class="food-name-box">
 			<p class="food-item"><%= foodName %></p>
 		</div>
-		<div>
-			<p class="food-calories"><%= calories %></p>
+		<div class="food-calories-box">
+			<p class="food-calories"><%= calories %> calories</p>
 		</div>
 	</script>
 	<script src="js/libs/jquery/dist/jquery.js"></script>

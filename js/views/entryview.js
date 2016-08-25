@@ -4,6 +4,8 @@ var app = app || {};
 app.EntryView = Backbone.View.extend({
 	tagName: 'li',
 
+	className: 'food-entry',
+
 	template: _.template($('#entry-template').html()),
 
 	events: {
@@ -12,7 +14,7 @@ app.EntryView = Backbone.View.extend({
 
 	// Initializes with listener for model destruction
 	initialize: function() {
-		app.vent.on('removeJournal', this.deleteView, this);
+		app.vent.on('removeJournalEntries', this.deleteView, this);
 	},
 
 	// Renders template with model attributes
@@ -24,11 +26,13 @@ app.EntryView = Backbone.View.extend({
 	// Destroys model and triggers delete entry event
 	deleteEntry: function() {
 		app.vent.trigger('deleteEntry', this.model);
+		app.vent.trigger('toggleHeader');
 		this.deleteView();
 	},
 
 	// Removes view item
 	deleteView: function() {
+		app.vent.off('removeJournalEntries');
 		this.remove();
 	}
 });

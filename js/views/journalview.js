@@ -6,16 +6,15 @@ app.JournalView = Backbone.View.extend({
 
 	events: {
 		'input #food-input' : 'foodQuery',
-		'click .add-custom-entry' : 'toggleCustomForm',
+		'click .custom-button' : 'toggleCustomForm',
 		'submit .custom-entry-form' : 'addCustomEntry',
-		'blur .custom-entry-form' : 'checkFocus',
+		'blur .custom-entry-form' : 'checkCustomFocus'
 	},
 
 	// Listens to changes in model and updates view.
 	// Triggers function callbacks on custom events to update
 	// model and remove views as appropriate.
 	initialize: function() {
-		console.log("journalview initialized");
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'remove', this.resetJournal);
 
@@ -24,12 +23,17 @@ app.JournalView = Backbone.View.extend({
 		app.vent.on('deleteEntry', this.deleteFoodEntry, this);
 		app.vent.on('toggleForm', this.toggleCustomForm, this);
 		app.vent.on('ajaxFail', this.displayFailure, this);
+		app.vent.on('noResultsFound', this.displayNoResultsMessage, this);
 		app.vent.on('toggleSpinner', this.toggleSpinner, this);
+		app.vent.on('updateSearch', this.removeErrorMessage, this);
+		app.vent.on('checkJournalDisplay', this.checkJournalDisplay, this);
 
 		// Calls function for adding food entry views if any food
 		// entries currently exist in model.
 		if (this.model.get('entryNumber')){
 			this.addAllFoodEntries(this.model.get('entryNumber'));
+		} else {
+			app.vent.trigger('removeJournalEntries');
 		}
 	},
 
@@ -46,14 +50,25 @@ app.JournalView = Backbone.View.extend({
 	// journal is removed from collection
 	resetJournal: function() {
 		app.vent.trigger('showWelcomeMessage');
+		app.vent.off('addFoodEntry');
+		app.vent.off('removeJournal');
+		app.vent.off('deleteEntry');
+		app.vent.off('toggleForm');
+		app.vent.off('ajaxFail');
+		app.vent.off('toggleSpinner');
+		app.vent.off('updateSearch');
+		this.remove();
 	},
 
 	// Triggers custom event when input changes and passes current input value
+	// If input is blank, triggers event for removal of any existing search views
 	foodQuery: function() {
 		var foodValue = this.$('#food-input').val();
 
 		if (foodValue){
 			app.vent.trigger('foodQuery', foodValue);
+		} else {
+			app.vent.trigger('updateSearch');
 		}
 	},
 
@@ -76,12 +91,18 @@ app.JournalView = Backbone.View.extend({
 	},
 
 	// Removes custom event listeners and views when no longer required to display
-	removeJournal: function() {
-		console.log("removeJournal triggered");
-		app.vent.off('addFoodEntry', this.addFoodEntry);
-		app.vent.off('removeJournal', this.removeJournal);
-		app.vent.off('deleteEntry', this.deleteFoodEntry);
+	removeJournal: function(model) {
+		app.vent.off('addFoodEntry');
+		app.vent.off('removeJournal');
+		app.vent.off('deleteEntry');
+		app.vent.off('toggleForm');
+		app.vent.off('ajaxFail');
+		app.vent.off('toggleSpinner');
+		app.vent.off('updateSearch');
+		app.vent.off('checkJournalDisplay');
 		this.remove();
+		app.vent.trigger('removeJournalEntries');
+		app.vent.trigger('toggleHeader');
 	},
 
 	// Toggles display of custom entry form
@@ -115,7 +136,7 @@ app.JournalView = Backbone.View.extend({
 
 	// When focus on an input is lost, checks if focus is on another form element.
 	// If focus is no longer on any form elements, triggers an event to hide form.
-	checkFocus: function(event) {
+	checkCustomFocus: function(event) {
 		setTimeout(function() {
 			var $form = $(event.delegateTarget).find('.custom-entry-form');
 			var id = '#' + $(document.activeElement).attr('id');
@@ -129,7 +150,22 @@ app.JournalView = Backbone.View.extend({
 	displayFailure: function() {
 		var failureHTML = '<li class="search-failure">Unable to load' +
 			'Nutritionix results</li>';
-		this.$('.search-results').append(failureHTML);
+		this.$('.search-results').html(failureHTML);
+	},
+
+	displayNoResultsMessage: function() {
+		var noResultsHTML = '<li class="no-results">No results found</li>';
+		this.$('.search-results').html(noResultsHTML);
+	},
+
+	removeErrorMessage: function() {
+		if (this.$('.search-failure').length) {
+			this.$('.search-failure').remove();
+		}
+
+		if (this.$('.no-results').length) {
+			this.$('.no-results').remove();
+		}
 	},
 
 	// Toggle visibility of spinner
@@ -144,6 +180,12 @@ app.JournalView = Backbone.View.extend({
 			if (this.model.get(currentEntry)) {
 				app.vent.trigger('createEntryView', this.model.get(currentEntry));
 			}
+		}
+	},
+
+	checkJournalDisplay: function(model) {
+		if (model.attributes.dateName === this.model.attributes.dateName) {
+			this.removeJournal(model);
 		}
 	}
 });
