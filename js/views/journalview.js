@@ -148,18 +148,20 @@ app.JournalView = Backbone.View.extend({
 		}, 0);
 	},
 
-	// Display a message upon ajax failure
+	// Display an error message upon ajax failure
 	displayFailure: function() {
 		var failureHTML = '<li class="search-failure">Unable to load' +
 			'Nutritionix results</li>';
 		this.$('.search-results').html(failureHTML);
 	},
 
+	// Display an error message if no results are found for a query
 	displayNoResultsMessage: function() {
 		var noResultsHTML = '<li class="no-results">No results found</li>';
 		this.$('.search-results').html(noResultsHTML);
 	},
 
+	// Removes any displayed error messages
 	removeErrorMessage: function() {
 		if (this.$('.search-failure').length) {
 			this.$('.search-failure').remove();
@@ -185,6 +187,7 @@ app.JournalView = Backbone.View.extend({
 		}
 	},
 
+	// Mechanism for keeping a journal view if a different daily journal is deleted
 	checkJournalDisplay: function(model) {
 		if (model.attributes.dateName === this.model.attributes.dateName) {
 			this.removeJournal(model);

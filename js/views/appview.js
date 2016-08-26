@@ -12,7 +12,6 @@ app.AppView = Backbone.View.extend({
 
 	// Listens for events and calls functions for AJAX request,
 	// adding daily journal list items, and adding edit journal view.
-	// Initiates ajax start and stop event callbacks.
 	initialize: function() {
 		this.$welcomeMessage = this.$('.journal-info').html();
 		this.$('.food-entry-header').hide();
@@ -28,6 +27,7 @@ app.AppView = Backbone.View.extend({
 
 		app.journals.fetch({reset: true});
 
+		// Initiates ajax start and stop event callbacks.
 		$(document).ajaxStart(function() {
 			app.vent.trigger('toggleSpinner');
 		});
@@ -157,11 +157,14 @@ app.AppView = Backbone.View.extend({
 		}, 20);
 	},
 
+	// Handles sliding sidebar mobile functionality
 	toggleSidebar: function() {
 		this.$('.sidebar').toggleClass('hidden');
 		this.toggleWelcomeMessageSize();
 	},
 
+	// Reduces size of welcome message when sidebar is visible
+	// on medium to large media devices
 	toggleWelcomeMessageSize: function() {
 		if (this.$('.sidebar').hasClass('hidden')) {
 			this.$('.welcome-message').removeClass('reduce-size');
