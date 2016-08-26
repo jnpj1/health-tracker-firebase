@@ -32,7 +32,7 @@ app.EntryView = Backbone.View.extend({
 
 	// Removes view item
 	deleteView: function() {
-		app.vent.off('removeJournalEntries');
+		app.vent.off('removeJournalEntries', this.deleteView, this);
 		this.remove();
 	}
 });

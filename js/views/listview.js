@@ -28,10 +28,8 @@ app.ListView = Backbone.View.extend({
 	},
 
 	// Removes the model from Journals collection when 'X' is clicked
-	// Triggers event to remove open journalview
 	removeDailyEntry: function() {
 		this.model.destroy();
-		app.vent.trigger('checkJournalDisplay', this.model);
 	},
 
 	// Removes the list item DOM element when model is removed

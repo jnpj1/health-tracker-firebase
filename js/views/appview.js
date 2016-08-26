@@ -164,12 +164,12 @@ app.AppView = Backbone.View.extend({
 	},
 
 	// Reduces size of welcome message when sidebar is visible
-	// on medium to large media devices
+	// on medium-sized media devices
 	toggleWelcomeMessageSize: function() {
 		if (this.$('.sidebar').hasClass('hidden')) {
 			this.$('.welcome-message').removeClass('reduce-size');
 		} else {
-			if ($(window).width() > 500) {
+			if (($(window).width() < 950) && ($(window).width() > 500)) {
 				this.$('.welcome-message').addClass('reduce-size');
 			}
 		}

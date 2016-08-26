@@ -16,7 +16,7 @@ app.JournalView = Backbone.View.extend({
 	// model and remove views as appropriate.
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
-		this.listenTo(this.model, 'remove', this.resetJournal);
+		this.listenTo(this.model, 'remove', this.removeJournal);
 
 		app.vent.on('addFoodEntry', this.addFoodEntry, this);
 		app.vent.on('removeJournal', this.removeJournal, this);
@@ -44,21 +44,6 @@ app.JournalView = Backbone.View.extend({
 		this.$('.custom-entry-form').hide();
 		this.$('.spinner').hide();
 		return this;
-	},
-
-	// Triggers event to show welcome message when currently selected
-	// journal is removed from collection
-	resetJournal: function() {
-		app.vent.trigger('showWelcomeMessage');
-		app.vent.off('addFoodEntry');
-		app.vent.off('removeJournal');
-		app.vent.off('deleteEntry');
-		app.vent.off('toggleForm');
-		app.vent.off('ajaxFail');
-		app.vent.off('toggleSpinner');
-		app.vent.off('updateSearch');
-		app.vent.off('checkJournalDisplay');
-		this.remove();
 	},
 
 	// Triggers custom event when input changes and passes current input value
@@ -91,20 +76,24 @@ app.JournalView = Backbone.View.extend({
 		this.model.deleteFoodEntry(food.entryNumber);
 	},
 
-	// Removes custom event listeners and views when no longer required to display
+	// Removes view when currently selected journal is removed from collection
+	// or when another journal is selected for display.
+	// Triggers events to remove entries and to toggle welcome message and
+	// food entry header.
 	removeJournal: function(model) {
-		app.vent.off('showWelcomeMessage');
-		app.vent.off('addFoodEntry');
-		app.vent.off('removeJournal');
-		app.vent.off('deleteEntry');
-		app.vent.off('toggleForm');
-		app.vent.off('ajaxFail');
-		app.vent.off('toggleSpinner');
-		app.vent.off('updateSearch');
-		app.vent.off('checkJournalDisplay');
-		this.remove();
 		app.vent.trigger('removeJournalEntries');
 		app.vent.trigger('toggleHeader');
+		app.vent.trigger('showWelcomeMessage');
+		app.vent.off('addFoodEntry', this.addFoodEntry, this);
+		app.vent.off('removeJournal', this.removeJournal, this);
+		app.vent.off('deleteEntry', this.deleteFoodEntry, this);
+		app.vent.off('toggleForm', this.toggleCustomForm, this);
+		app.vent.off('ajaxFail', this.displayFailure, this);
+		app.vent.off('noResultsFound', this.displayNoResultsMessage, this);
+		app.vent.off('toggleSpinner', this.toggleSpinner, this);
+		app.vent.off('updateSearch', this.removeErrorMessage, this);
+		app.vent.off('checkJournalDisplay', this.checkJournalDisplay, this);
+		this.remove();
 	},
 
 	// Toggles display of custom entry form
@@ -126,6 +115,8 @@ app.JournalView = Backbone.View.extend({
 			alert('Please enter the name of the food item');
 		} else if (!customCalories) {
 			alert('Please enter the calorie count of the food item');
+		} else if(isNaN(customCalories)) {
+			alert('Please enter a number for calorie count');
 		} else {
 			this.model.appendFoodEntry(customName, customCalories);
 			var customEntryNumber = this.model.get('entryNumber');
@@ -184,13 +175,6 @@ app.JournalView = Backbone.View.extend({
 			if (this.model.get(currentEntry)) {
 				app.vent.trigger('createEntryView', this.model.get(currentEntry));
 			}
-		}
-	},
-
-	// Mechanism for keeping a journal view if a different daily journal is deleted
-	checkJournalDisplay: function(model) {
-		if (model.attributes.dateName === this.model.attributes.dateName) {
-			this.removeJournal(model);
 		}
 	}
 });
