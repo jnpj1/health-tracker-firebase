@@ -110,10 +110,11 @@ footer {
 .welcome-message {
 	text-align: center;
 	padding-top: 50px;
+	transition: all 0.5s ease-out;
 }
 
 .journal-main {
-	padding: 25px 15px 10px;
+	padding: 20px 15px 10px;
 	text-align: center;
 }
 
@@ -149,7 +150,7 @@ footer {
 	border: 1px solid #7F152E;
 	border-top: 1px dashed #74152E;
 	border-bottom: none;
-	padding: 2px 3px;
+	padding: 9px 3px;
 }
 
 .date-header,
@@ -180,7 +181,7 @@ footer {
 .food-entry {
 	display: flex;
 	justify-content: space-between;
-	padding: 5px;
+	padding: 10px 5px;
 	color: #441E29;
 	border: 1px solid #7F152E;
 	border-top: 1px dashed #74152E;
@@ -193,8 +194,23 @@ footer {
 	padding: 5px;
 }
 
+.food-item {
+	padding: 0 10px;
+	text-align: center;
+}
+
 .nutritionix-link {
 	color: #441E29;
+}
+
+.hidden {
+	transform: translate(-275px, 0px);
+	transition: all 1s ease-out;
+}
+
+.reduce-size {
+	margin-left: 300px;
+	transition: all 0.5s ease-out;
 }
 
 .calendar-button:hover,
@@ -222,4 +238,124 @@ footer {
 .food-entry:last-child,
 .result:last-child {
 	border-bottom: 1px solid #7F152E;
+}
+
+@media screen and (max-width: 950px) {
+	.hamburger-box {
+		visibility: visible;
+		padding-left: 30px;
+	}
+
+	.journal {
+		width: 100%;
+	}
+
+	.sidebar {
+		width: 275px;
+		position: absolute;
+		opacity: 1;
+		background-color: white;
+		left: 0;
+		top: 15vh;
+		transition: all 1s ease-out;
+		z-index: 98;
+	}
+
+	.search-results {
+		max-height: 67vh;
+		overflow: auto;
+	}
+
+	.result {
+		padding: 1.5em 3px;
+	}
+
+	.welcome-message {
+		padding: 50px 10px;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	.food-item,
+	.food-calories {
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 390px) {
+	header {
+		font-size: 14px;
+	}
+
+	.hamburger-box {
+		padding: 0 1.3em;
+	}
+
+	.food-item,
+	.food-calories {
+		font-size: 12px;
+	}
+}
+
+@media screen and (max-width: 330px) {
+	header {
+		font-size: 13px;
+	}
+
+	.journal-main {
+		padding: 10px 15px;
+	}
+
+	.date-header {
+		font-size: 18px;
+	}
+
+	.calorie-header,
+	.create-custom-entry {
+		font-size: 16px;
+	}
+
+	#calorie-input {
+		width: 90px;
+	}
+}
+
+@media screen and (max-width: 750px) and (orientation: landscape) {
+	header {
+		padding-top: 10px;
+	}
+
+	.date-list {
+		max-height: 66vh;
+	}
+
+	.search-results {
+		max-height: 50vh;
+	}
+
+	.journal-entries {
+		max-height: 40vh;
+	}
+}
+
+@media screen and (max-width: 600px) and (orientation: landscape) {
+	header {
+		padding-top: 5px;
+	}
+
+	.journal-main {
+		padding: 10px;
+	}
+
+	.date-list {
+		max-height: 62vh;
+	}
+
+	.search-results {
+		max-height: 45vh;
+	}
+
+	.journal-entries {
+		max-height: 34vh;
+	}
 }

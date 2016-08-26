@@ -29,6 +29,7 @@ app.SearchView = Backbone.View.extend({
 
 	// Removes view
 	removeListing: function() {
+		app.vent.off('updateSearch');
 		this.remove();
 	}
 });

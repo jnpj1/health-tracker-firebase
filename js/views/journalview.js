@@ -57,6 +57,7 @@ app.JournalView = Backbone.View.extend({
 		app.vent.off('ajaxFail');
 		app.vent.off('toggleSpinner');
 		app.vent.off('updateSearch');
+		app.vent.off('checkJournalDisplay');
 		this.remove();
 	},
 
@@ -92,6 +93,7 @@ app.JournalView = Backbone.View.extend({
 
 	// Removes custom event listeners and views when no longer required to display
 	removeJournal: function(model) {
+		app.vent.off('showWelcomeMessage');
 		app.vent.off('addFoodEntry');
 		app.vent.off('removeJournal');
 		app.vent.off('deleteEntry');

@@ -7,7 +7,7 @@ app.AppView = Backbone.View.extend({
 	el: 'body',
 
 	events: {
-		'click .hamburger-icon' : 'app.SidebarView.toggleSidebar',
+		'click .hamburger-icon' : 'toggleSidebar',
 	},
 
 	// Listens for events and calls functions for AJAX request,
@@ -35,6 +35,17 @@ app.AppView = Backbone.View.extend({
 		$(document).ajaxStop(function() {
 			app.vent.trigger('toggleSpinner');
 		});
+
+		// Calls function for reducing welcome message size for screens where
+		// sliding sidebar functionality has been added
+		if ($(window).width() < 950) {
+			this.toggleWelcomeMessageSize();
+		}
+
+		// Calls function for toggling sidebar to closed for smaller media devices
+		if($(window).width() < 500) {
+			this.toggleSidebar();
+		}
 	},
 
 	// Creates a new list item view and appends it to DOM based on
@@ -132,6 +143,7 @@ app.AppView = Backbone.View.extend({
 	showWelcomeMessage: function() {
 		this.$('.food-entry-header').hide();
 		this.$('.journal-info').html(this.$welcomeMessage);
+		this.toggleWelcomeMessageSize();
 	},
 
 	// Shows food entry header if food entry list items are in DOM
@@ -143,5 +155,20 @@ app.AppView = Backbone.View.extend({
 				this.$('.food-entry-header').hide();
 			}
 		}, 20);
+	},
+
+	toggleSidebar: function() {
+		this.$('.sidebar').toggleClass('hidden');
+		this.toggleWelcomeMessageSize();
+	},
+
+	toggleWelcomeMessageSize: function() {
+		if (this.$('.sidebar').hasClass('hidden')) {
+			this.$('.welcome-message').removeClass('reduce-size');
+		} else {
+			if ($(window).width() > 500) {
+				this.$('.welcome-message').addClass('reduce-size');
+			}
+		}
 	}
 });
