@@ -261,6 +261,10 @@ footer {
 		z-index: 98;
 	}
 
+	.spinner {
+		left: 75%;
+	}
+
 	.search-results {
 		max-height: 67vh;
 		overflow: auto;
@@ -280,6 +284,11 @@ footer {
 	.food-calories {
 		font-size: 14px;
 	}
+
+	.spinner {
+		left: 85%;
+		top: -45px;
+	}
 }
 
 @media screen and (max-width: 390px) {
@@ -294,6 +303,11 @@ footer {
 	.food-item,
 	.food-calories {
 		font-size: 12px;
+	}
+
+	.spinner {
+		top: -60px;
+		left: 90%;
 	}
 }
 
