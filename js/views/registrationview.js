@@ -4,8 +4,7 @@ app.RegistrationView = Backbone.View.extend({
 	className: 'registration-box',
 
 	events: {
-		'submit .registration-form' : 'registerUserFirebase',
-
+		'submit .registration-form' : 'registerUserFirebase'
 	},
 
 	template: _.template($('#registration-template').html()),
