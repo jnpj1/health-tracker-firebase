@@ -10,6 +10,10 @@ app.LoginView = Backbone.View.extend({
 
 	template: _.template($('#login-template').html()),
 
+	initialize: function() {
+		app.vent.on('removeAuthView', this.remove, this);
+	},
+
 	render: function() {
 		this.$el.html(this.template());
 		return this;

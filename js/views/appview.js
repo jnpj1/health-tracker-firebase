@@ -179,12 +179,13 @@ app.AppView = Backbone.View.extend({
 	},
 
 	showLogin: function() {
+		app.vent.trigger('removeAuthView');
 		var loginView = new app.LoginView();
 		this.$('.signin').html(loginView.render().el);
 	},
 
 	showRegistration: function() {
-		console.log("showRegistration function called");
+		app.vent.trigger('removeAuthView');
 		var registrationView = new app.RegistrationView();
 		this.$('.signin').html(registrationView.render().el);
 	}
