@@ -8,12 +8,15 @@ app.AppView = Backbone.View.extend({
 
 	events: {
 		'click .hamburger-icon' : 'toggleSidebar',
+		'click .login' : 'showLogin',
+		'click .register' : 'showRegistration'
 	},
 
 	// Listens for events and calls functions for AJAX request,
 	// adding daily journal list items, and adding edit journal view.
 	initialize: function() {
 		this.$welcomeMessage = this.$('.journal-info').html();
+		this.$('.welcome-message').hide();
 		this.$('.food-entry-header').hide();
 
 		this.listenTo(app.journals, 'add', this.addDateEntry);
@@ -25,7 +28,7 @@ app.AppView = Backbone.View.extend({
 		app.vent.on('showWelcomeMessage', this.showWelcomeMessage, this);
 		app.vent.on('toggleHeader', this.toggleFoodEntryHeader, this);
 
-		app.journals.fetch({reset: true});
+		/*app.journals.fetch({reset: true});*/
 
 		// Initiates ajax start and stop event callbacks.
 		$(document).ajaxStart(function() {
@@ -173,5 +176,16 @@ app.AppView = Backbone.View.extend({
 				this.$('.welcome-message').addClass('reduce-size');
 			}
 		}
+	},
+
+	showLogin: function() {
+		var loginView = new app.LoginView();
+		this.$('.signin').html(loginView.render().el);
+	},
+
+	showRegistration: function() {
+		console.log("showRegistration function called");
+		var registrationView = new app.RegistrationView();
+		this.$('.signin').html(registrationView.render().el);
 	}
 });

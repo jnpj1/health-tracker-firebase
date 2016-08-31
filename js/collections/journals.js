@@ -5,8 +5,7 @@ var app = app || {};
 app.JournalList = Backbone.Collection.extend({
 	model: app.DailyJournal,
 
-	// Sets up Backbone Local Storage adapter
-	localStorage: new Backbone.LocalStorage('journals-backbone'),
+	url: 'https://health-tracker-4bdde.firebaseio.com',
 
 	// Creates a date string for display in list item
 	createDateString: function(date) {

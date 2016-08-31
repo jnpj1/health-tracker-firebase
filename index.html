@@ -29,7 +29,11 @@
 		</aside>
 		<section class="journal">
 			<div class="journal-info">
+				<h3 class="login-prompt"><span class="login underline">Login</span> or <span class="register underline">
+					Register</span> to begin journaling your calories!</h3>
 				<h3 class="welcome-message">Select an existing daily journal or start a new daily journal!</h3>
+				<div class="signin">
+				</div>
 			</div>
 			<div class="journal-entries">
 				<h4 class="food-entry-header">Daily Food Entries</h4>
@@ -39,63 +43,92 @@
 		<footer>
 			<p>Powered by <a class="nutritionix-link" href="https://www.nutritionix.com/api">Nutritionix API</a></p>
 		</footer>
+		<script type="text/template" id="list-template">
+			<div class="journal-stats">
+				<h4 class="date-entry"><%= dateName %></h4>
+				<p class="calorie-total">Total: <%= totalCalories %> calories</p>
+			</div>
+			<div class="delete-box" title="Remove Daily Journal">
+				<p class="date-remove">X</p>
+			</div>
+		</script>
+		<script type="text/template" id="journal-template">
+			<div class="journal-main">
+				<h2 class="date-header"><%= dateName %></h2>
+				<h3 class="calorie-header">Daily Calorie Total: <%= totalCalories %></h3>
+				<input type="text" placeholder="Search for food item or meal!" id="food-input">
+				<div class="spinner-box">
+					<img class="spinner" alt="loading spinner" src="images/spinner.gif">
+				</div>
+				<div class="search-results-box">
+					<ul class="search-results"></ul>
+				</div>
+			</div>
+			<div class="journal-custom">
+				<p class="create-custom-entry">Create Custom Entry <span class="custom-button">+</span></p>
+				<div class="custom-form-box">
+					<form class="custom-entry-form">
+						<input type="text" placeholder="Enter food description" id="description-input">
+						<input type="text" placeholder="Enter calories" id="calorie-input">
+						<input type="submit" value="Add!" id="submit-button">
+					</form>
+				</div>
+			</div>
+		</script>
+		<script type="text/template" id="entry-template">
+			<div class="entry-remove-box">
+				<h5 class="entry-remove">X</h5>
+			</div>
+			<div class="food-name-box">
+				<p class="food-item"><%= foodName %></p>
+			</div>
+			<div class="food-calories-box">
+				<p class="food-calories"><%= calories %> calories</p>
+			</div>
+		</script>
+		<script type="text/template" id="login-template">
+			<h3>Log in to your account:</h3>
+			<form class="login-form">
+				<input type="text" placeholder="Username" id="login-username">
+				<input type="password" placeholder="Password" id="login-password">
+				<input type="submit" value="Login" id="login-button">
+			</form>
+		</script>
+		<script type="text/template" id="registration-template">
+			<h3>Register for an account:</h3>
+			<form class="registration-form">
+				<input type="text" placeholder="Choose a username" id="registration-username">
+				<input type="password" placeholder="Choose a password" id="registration-password">
+				<input type="password" placeholder="Confirm password" id="password-confirm">
+				<input type="submit" value="Register" id="registration-button">
+			</form>
+		</script>
+		<script src="js/libs/jquery/dist/jquery.js"></script>
+		<script src="js/libs/jquery-ui/jquery-ui.min.js"></script>
+		<script src="js/libs/underscore/underscore.js"></script>
+		<script src="js/libs/backbone/backbone.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+		<script src="js/libs/backbonefire/backbonefire.min.js"></script>
+		<script>
+  			var config = {
+    			apiKey: "AIzaSyDFFAHfLvzl9ctlq6pPIm1iAaTrW9yLIK8",
+    			authDomain: "health-tracker-4bdde.firebaseapp.com",
+    			databaseURL: "https://health-tracker-4bdde.firebaseio.com",
+    			storageBucket: "health-tracker-4bdde.appspot.com"
+  			};
+  			firebase.initializeApp(config);
+		</script>
+		<script src="js/models/dailyjournal.js"></script>
+		<script src="js/collections/journals.js"></script>
+		<script src="js/views/listview.js"></script>
+		<script src="js/views/calendarview.js"></script>
+		<script src="js/views/journalview.js"></script>
+		<script src="js/views/searchview.js"></script>
+		<script src="js/views/entryview.js"></script>
+		<script src="js/views/loginview.js"></script>
+		<script src="js/views/registrationview.js"></script>
+		<script src="js/views/userview.js"></script>
+		<script src="js/views/appview.js"></script>
+		<script src="js/app.js"></script>
 	</body>
-	<script type="text/template" id="list-template">
-		<div class="journal-stats">
-			<h4 class="date-entry"><%= dateName %></h4>
-			<p class="calorie-total">Total: <%= totalCalories %> calories</p>
-		</div>
-		<div class="delete-box" title="Remove Daily Journal">
-			<p class="date-remove">X</p>
-		</div>
-	</script>
-	<script type="text/template" id="journal-template">
-		<div class="journal-main">
-			<h2 class="date-header"><%= dateName %></h2>
-			<h3 class="calorie-header">Daily Calorie Total: <%= totalCalories %></h3>
-			<input type="text" placeholder="Search for food item or meal!" id="food-input">
-			<div class="spinner-box">
-				<img class="spinner" alt="loading spinner" src="images/spinner.gif">
-			</div>
-			<div class="search-results-box">
-				<ul class="search-results"></ul>
-			</div>
-		</div>
-		<div class="journal-custom">
-			<p class="create-custom-entry">Create Custom Entry <span class="custom-button">+</span></p>
-			<div class="custom-form-box">
-				<form class="custom-entry-form">
-					<input type="text" placeholder="Enter food description" id="description-input">
-					<input type="text" placeholder="Enter calories" id="calorie-input">
-					<input type="submit" value="Add!" id="submit-button">
-				</form>
-			</div>
-		</div>
-	</script>
-	<script type="text/template" id="entry-template">
-		<div class="entry-remove-box">
-			<h5 class="entry-remove">X</h5>
-		</div>
-		<div class="food-name-box">
-			<p class="food-item"><%= foodName %></p>
-		</div>
-		<div class="food-calories-box">
-			<p class="food-calories"><%= calories %> calories</p>
-		</div>
-	</script>
-	<script src="js/libs/jquery/dist/jquery.js"></script>
-	<script src="js/libs/jquery-ui/jquery-ui.min.js"></script>
-	<script src="js/libs/underscore/underscore.js"></script>
-	<script src="js/libs/backbone/backbone.js"></script>
-	<script src="https://cdn.firebase.com/js/client/2.0.3/firebase.js"></script>
-	<script src="js/libs/backbonefire/backbonefire.min.js"></script>
-	<script src="js/models/dailyjournal.js"></script>
-	<script src="js/collections/journals.js"></script>
-	<script src="js/views/listview.js"></script>
-	<script src="js/views/calendarview.js"></script>
-	<script src="js/views/journalview.js"></script>
-	<script src="js/views/searchview.js"></script>
-	<script src="js/views/entryview.js"></script>
-	<script src="js/views/appview.js"></script>
-	<script src="js/app.js"></script>
 </html>
