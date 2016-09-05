@@ -9,15 +9,17 @@ app.AppView = Backbone.View.extend({
 	events: {
 		'click .hamburger-icon' : 'toggleSidebar',
 		'click .login' : 'showLogin',
-		'click .register' : 'showRegistration'
+		'click .register' : 'showRegistration',
+		'click .logout' : 'logoutUser'
 	},
 
 	// Listens for events and calls functions for AJAX request,
 	// adding daily journal list items, and adding edit journal view.
 	initialize: function() {
-		this.$welcomeMessage = this.$('.journal-info').html();
+		this.$welcomeMessage = this.$('.welcome-message');
 		this.$('.welcome-message').hide();
 		this.$('.food-entry-header').hide();
+		this.$('.user-info-box').hide();
 
 		this.listenTo(app.journals, 'add', this.addDateEntry);
 		this.listenTo(app.journals, 'reset', this.addAllDates);
@@ -27,6 +29,20 @@ app.AppView = Backbone.View.extend({
 		app.vent.on('createEntryView', this.createEntryView, this);
 		app.vent.on('showWelcomeMessage', this.showWelcomeMessage, this);
 		app.vent.on('toggleHeader', this.toggleFoodEntryHeader, this);
+		app.vent.on('showUserInfo', this.showUserInfo, this);
+
+		var $loginPrompt = this.$('.login-prompt');
+
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				$loginPrompt.hide();
+				app.vent.trigger('removeAuthView');
+				app.vent.trigger('showWelcomeMessage');
+				app.vent.trigger('showUserInfo', user);
+			} else {
+				console.log('no user');
+			}
+		});
 
 		/*app.journals.fetch({reset: true});*/
 
@@ -145,7 +161,7 @@ app.AppView = Backbone.View.extend({
 	// Shows welcome message when journal is deleted
 	showWelcomeMessage: function() {
 		this.$('.food-entry-header').hide();
-		this.$('.journal-info').html(this.$welcomeMessage);
+		this.$welcomeMessage.show();
 		this.toggleWelcomeMessageSize();
 	},
 
@@ -188,5 +204,16 @@ app.AppView = Backbone.View.extend({
 		app.vent.trigger('removeAuthView');
 		var registrationView = new app.RegistrationView();
 		this.$('.signin').html(registrationView.render().el);
+	},
+
+	showUserInfo: function(user) {
+		console.log(user.email);
+		this.$('.user-info').html(user.email);
+		this.$('.user-info-box').show();
+	},
+
+	logoutUser: function() {
+		console.log("logoutUser called");
+		firebase.auth().signOut();
 	}
 });
