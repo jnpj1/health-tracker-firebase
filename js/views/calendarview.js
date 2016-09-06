@@ -29,9 +29,13 @@ app.CalendarView = Backbone.View.extend({
 		});
 	},
 
-	// Opens datepicker when click event triggered on '+'
+	// Opens datepicker when click event triggered on '+' when user is logged in
 	showDatepicker: function() {
-		this.$('#datepicker').datepicker('show');
+		if (firebase.auth().currentUser) {
+			this.$('#datepicker').datepicker('show');
+		} else {
+			alert('Please login or register');
+		}
 	},
 
 	// Produces object with attributes based on date information

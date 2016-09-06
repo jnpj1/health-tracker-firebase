@@ -19,6 +19,8 @@ app.ListView = Backbone.View.extend({
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
 		this.listenTo(this.model, 'destroy', this.removeListItem);
+
+		app.vent.on('logout', this.removeListItem, this);
 	},
 
 	// Renders the list item html with model attributes
@@ -40,7 +42,7 @@ app.ListView = Backbone.View.extend({
 	// Trigger events to remove current journal view and to create
 	// view for selected date
 	triggerJournalEdit: function() {
-		app.vent.trigger('removeJournal', this.model);
+		app.vent.trigger('removeJournal');
 		app.vent.trigger('editJournal', this.model);
 	}
 });

@@ -11,6 +11,8 @@ app.JournalView = Backbone.View.extend({
 		'blur .custom-entry-form' : 'checkCustomFocus'
 	},
 
+	className: 'journal-summary',
+
 	// Listens to changes in model and updates view.
 	// Triggers function callbacks on custom events to update
 	// model and remove views as appropriate.
@@ -80,10 +82,12 @@ app.JournalView = Backbone.View.extend({
 	// or when another journal is selected for display.
 	// Triggers events to remove entries and to toggle welcome message and
 	// food entry header.
-	removeJournal: function(model) {
+	removeJournal: function(option) {
 		app.vent.trigger('removeJournalEntries');
 		app.vent.trigger('toggleHeader');
-		app.vent.trigger('showWelcomeMessage');
+		if (option !== 'hide') {
+			app.vent.trigger('showWelcomeMessage');
+		}
 		app.vent.off('addFoodEntry', this.addFoodEntry, this);
 		app.vent.off('removeJournal', this.removeJournal, this);
 		app.vent.off('deleteEntry', this.deleteFoodEntry, this);

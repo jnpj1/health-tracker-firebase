@@ -17,9 +17,12 @@ app.AppView = Backbone.View.extend({
 	// adding daily journal list items, and adding edit journal view.
 	initialize: function() {
 		this.$welcomeMessage = this.$('.welcome-message');
-		this.$('.welcome-message').hide();
-		this.$('.food-entry-header').hide();
-		this.$('.user-info-box').hide();
+		this.$welcomeMessage.hide();
+		this.$loginPrompt = this.$('.login-prompt');
+		this.$foodHeader = this.$('.food-entry-header');
+		this.$foodHeader.hide();
+		this.$userInfoBox = this.$('.user-info-box');
+		this.$userInfoBox.hide();
 
 		this.listenTo(app.journals, 'add', this.addDateEntry);
 		this.listenTo(app.journals, 'reset', this.addAllDates);
@@ -31,11 +34,11 @@ app.AppView = Backbone.View.extend({
 		app.vent.on('toggleHeader', this.toggleFoodEntryHeader, this);
 		app.vent.on('showUserInfo', this.showUserInfo, this);
 
-		var $loginPrompt = this.$('.login-prompt');
+		var loginPrompt = this.$loginPrompt;
 
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
-				$loginPrompt.hide();
+				loginPrompt.hide();
 				app.vent.trigger('removeAuthView');
 				app.vent.trigger('showWelcomeMessage');
 				app.vent.trigger('showUserInfo', user);
@@ -87,8 +90,9 @@ app.AppView = Backbone.View.extend({
 
 	// Creates and renders a new journal edit view
 	showJournal: function(journal) {
+		this.$welcomeMessage.hide();
 		var newJournal = new app.JournalView({model: journal});
-		this.$('.journal-info').html(newJournal.render().el);
+		this.$('.journal-info').append(newJournal.render().el);
 		this.toggleFoodEntryHeader();
 	},
 
@@ -159,7 +163,7 @@ app.AppView = Backbone.View.extend({
 
 	// Shows welcome message when journal is deleted
 	showWelcomeMessage: function() {
-		this.$('.food-entry-header').hide();
+		this.$foodHeader.hide();
 		this.$welcomeMessage.show();
 		this.toggleWelcomeMessageSize();
 	},
@@ -185,10 +189,10 @@ app.AppView = Backbone.View.extend({
 	// on medium-sized media devices
 	toggleWelcomeMessageSize: function() {
 		if (this.$('.sidebar').hasClass('hidden')) {
-			this.$('.welcome-message').removeClass('reduce-size');
+			this.$welcomeMessage.removeClass('reduce-size');
 		} else {
 			if (($(window).width() < 950) && ($(window).width() > 500)) {
-				this.$('.welcome-message').addClass('reduce-size');
+				this.$welcomeMessage.addClass('reduce-size');
 			}
 		}
 	},
@@ -208,11 +212,15 @@ app.AppView = Backbone.View.extend({
 	showUserInfo: function(user) {
 		console.log(user.email);
 		this.$('.user-info').html(user.email);
-		this.$('.user-info-box').show();
+		this.$userInfoBox.show();
 	},
 
 	logoutUser: function() {
-		console.log("logoutUser called");
 		firebase.auth().signOut();
+		this.$loginPrompt.show();
+		app.vent.trigger('removeJournal', 'hide');
+		app.vent.trigger('logout');
+		this.$userInfoBox.hide();
+		this.$welcomeMessage.hide();
 	}
 });

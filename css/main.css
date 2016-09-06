@@ -38,6 +38,11 @@ footer {
 	background-color: white;
 }
 
+.registration-form input,
+.login-form input {
+	margin-bottom: 10px;
+}
+
 .hamburger-box {
 	visibility: hidden;
 }
@@ -115,7 +120,7 @@ footer {
 .login-prompt,
 .welcome-message {
 	text-align: center;
-	padding-top: 50px;
+	padding-top: 60px;
 }
 
 .welcome-message {
@@ -309,6 +314,10 @@ footer {
 		z-index: 98;
 	}
 
+	.journal-summary {
+		padding: 25px 50px;
+	}
+
 	.spinner {
 		left: 75%;
 	}
@@ -322,12 +331,28 @@ footer {
 		padding: 1.5em 3px;
 	}
 
-	.welcome-message {
-		padding: 50px 10px;
+	.welcome-message,
+	.login-prompt {
+		padding: 70px 10px;
 	}
 }
 
 @media screen and (max-width: 550px) {
+	.user-info-box {
+		width: 100%;
+		display: inline-flex;
+		justify-content: space-between;
+	}
+
+	.user-info,
+	.logout {
+		padding: 10px;
+	}
+
+	.journal-summary {
+		padding: 25px 0;
+	}
+
 	.food-item,
 	.food-calories {
 		font-size: 14px;
@@ -336,6 +361,14 @@ footer {
 	.spinner {
 		left: 85%;
 		top: -45px;
+	}
+
+	.search-results {
+		max-height: 55vh;
+	}
+
+	.journal-entries {
+		max-height: 47vh;
 	}
 }
 
