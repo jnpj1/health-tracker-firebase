@@ -1,5 +1,6 @@
 var app = app || {};
 
+// Registration form view
 app.RegistrationView = Backbone.View.extend({
 	className: 'registration-box',
 
@@ -18,6 +19,7 @@ app.RegistrationView = Backbone.View.extend({
 		return this;
 	},
 
+	// Registers user with firebase
 	registerUserFirebase: function(event) {
 		event.preventDefault();
 

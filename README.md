@@ -6,6 +6,12 @@ Track your calorie count in daily journals!
 
 Open index.html in any modern web browser.  Alternatively, view on [GitHub Pages](http://jnpj1.github.io/health-tracker).
 
+## Login or Register
+
+Click Register to create a new account.
+
+Click Login to sign in to an existing account.
+
 ## Add a Daily Journal
 
 Click on the '+' button to choose a date for your new journal.

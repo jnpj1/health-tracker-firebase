@@ -197,24 +197,28 @@ app.AppView = Backbone.View.extend({
 		}
 	},
 
+	// Creates and adds login view when login is clicked
 	showLogin: function() {
 		app.vent.trigger('removeAuthView');
 		var loginView = new app.LoginView();
 		this.$('.signin').html(loginView.render().el);
 	},
 
+	// Creates and adds registration view when register is clicked
 	showRegistration: function() {
 		app.vent.trigger('removeAuthView');
 		var registrationView = new app.RegistrationView();
 		this.$('.signin').html(registrationView.render().el);
 	},
 
+	// Displays user email and logout button
 	showUserInfo: function(user) {
 		console.log(user.email);
 		this.$('.user-info').html(user.email);
 		this.$userInfoBox.show();
 	},
 
+	// Logs user out when logout is clicked
 	logoutUser: function() {
 		firebase.auth().signOut();
 		this.$loginPrompt.show();

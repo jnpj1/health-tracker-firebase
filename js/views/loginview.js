@@ -1,5 +1,6 @@
 var app = app || {};
 
+// Login form view
 app.LoginView = Backbone.View.extend({
 	className: 'login-box',
 
@@ -19,6 +20,7 @@ app.LoginView = Backbone.View.extend({
 		return this;
 	},
 
+	// Logs in to firebase
 	loginFirebase: function(event) {
 		event.preventDefault();
 
@@ -60,9 +62,5 @@ app.LoginView = Backbone.View.extend({
 				}
 			});
 		}
-	},
-
-	resetPassword: function() {
-
 	}
 });

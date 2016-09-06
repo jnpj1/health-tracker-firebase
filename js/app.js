@@ -1,4 +1,6 @@
 $(function() {
+
+	// Custom Backbone sync method to utilize firebase database
 	Backbone.sync = function(method, model, options) {
 		if (method === 'create') {
 			var user = firebase.auth().currentUser;
