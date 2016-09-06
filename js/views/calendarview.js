@@ -36,9 +36,11 @@ app.CalendarView = Backbone.View.extend({
 
 	// Produces object with attributes based on date information
 	newAttributes: function(date) {
+		var dateComparator = app.journals.createDateComparator(date);
 		return {
-			dateComparator: app.journals.createDateComparator(date),
-			dateName: app.journals.createDateString(date)
+			dateComparator: dateComparator,
+			dateName: app.journals.createDateString(date),
+			id: dateComparator
 		}
 	},
 

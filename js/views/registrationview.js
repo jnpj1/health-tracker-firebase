@@ -9,6 +9,10 @@ app.RegistrationView = Backbone.View.extend({
 
 	template: _.template($('#registration-template').html()),
 
+	initialize: function() {
+		app.vent.on('removeAuthView', this.remove, this);
+	},
+
 	render: function() {
 		this.$el.html(this.template());
 		return this;

@@ -5,8 +5,6 @@ var app = app || {};
 app.JournalList = Backbone.Collection.extend({
 	model: app.DailyJournal,
 
-	url: 'https://health-tracker-4bdde.firebaseio.com',
-
 	// Creates a date string for display in list item
 	createDateString: function(date) {
 		var dateString;

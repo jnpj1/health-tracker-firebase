@@ -39,12 +39,11 @@ app.AppView = Backbone.View.extend({
 				app.vent.trigger('removeAuthView');
 				app.vent.trigger('showWelcomeMessage');
 				app.vent.trigger('showUserInfo', user);
+				app.journals.fetch({reset: true});
 			} else {
 				console.log('no user');
 			}
 		});
-
-		/*app.journals.fetch({reset: true});*/
 
 		// Initiates ajax start and stop event callbacks.
 		$(document).ajaxStart(function() {

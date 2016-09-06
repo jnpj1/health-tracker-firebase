@@ -70,6 +70,7 @@ footer {
 	display: inline-block;
 	vertical-align: top;
 	color: #7F152E;
+	position: relative;
 }
 
 .journal-list-item {
@@ -138,6 +139,24 @@ footer {
 	padding-top: 10px;
 	font-size: 12px;
 	color: #441E29;
+}
+
+.user-info-box {
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 12px;
+	color: #441E29;
+}
+
+.user-info {
+	padding: 10px 5px;
+}
+
+.logout {
+	padding: 0px 5px;
+	text-align: right;
+	text-decoration: underline;
 }
 
 .journal-main {
@@ -245,7 +264,8 @@ footer {
 .custom-button:hover,
 .entry-remove-box:hover,
 .result:hover,
-.underline:hover {
+.underline:hover,
+.logout:hover {
 	cursor: pointer;
 }
 
