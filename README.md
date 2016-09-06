@@ -4,7 +4,7 @@ Track your calorie count in daily journals!
 
 ## Run the App
 
-Open index.html in any modern web browser.  Alternatively, view on [GitHub Pages](http://jnpj1.github.io/health-tracker).
+Open index.html in any modern web browser.  Alternatively, view on [GitHub Pages](http://jnpj1.github.io/health-tracker-firebase).
 
 ## Login or Register
 
