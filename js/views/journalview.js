@@ -27,7 +27,6 @@ app.JournalView = Backbone.View.extend({
 		app.vent.on('ajaxFail', this.displayFailure, this);
 		app.vent.on('noResultsFound', this.displayNoResultsMessage, this);
 		app.vent.on('toggleSpinner', this.toggleSpinner, this);
-		app.vent.on('updateSearch', this.removeErrorMessage, this);
 		app.vent.on('checkJournalDisplay', this.checkJournalDisplay, this);
 
 		// Calls function for adding food entry views if any food
@@ -49,9 +48,10 @@ app.JournalView = Backbone.View.extend({
 	},
 
 	// Triggers custom event when input changes and passes current input value
-	// If input is blank, triggers event for removal of any existing search views
+	// Removes any existing search views
 	foodQuery: function() {
 		var foodValue = this.$('#food-input').val();
+		this.removeErrorMessage();
 
 		if (foodValue){
 			app.vent.trigger('foodQuery', foodValue);
@@ -95,7 +95,6 @@ app.JournalView = Backbone.View.extend({
 		app.vent.off('ajaxFail', this.displayFailure, this);
 		app.vent.off('noResultsFound', this.displayNoResultsMessage, this);
 		app.vent.off('toggleSpinner', this.toggleSpinner, this);
-		app.vent.off('updateSearch', this.removeErrorMessage, this);
 		app.vent.off('checkJournalDisplay', this.checkJournalDisplay, this);
 		this.remove();
 	},
