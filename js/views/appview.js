@@ -25,7 +25,6 @@ app.AppView = Backbone.View.extend({
 		this.$userInfoBox.hide();
 
 		this.listenTo(app.journals, 'add', this.addDateEntry);
-		this.listenTo(app.journals, 'reset', this.addAllDates);
 
 		app.vent.on('editJournal', this.showJournal, this);
 		app.vent.on('foodQuery', this.foodQuery, this);
@@ -38,13 +37,12 @@ app.AppView = Backbone.View.extend({
 
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
+				app.journals.reset();
 				loginPrompt.hide();
 				app.vent.trigger('removeAuthView');
 				app.vent.trigger('showWelcomeMessage');
 				app.vent.trigger('showUserInfo', user);
-				app.journals.fetch({reset: true});
-			} else {
-				console.log('no user');
+				app.journals.fetch();
 			}
 		});
 
@@ -81,11 +79,6 @@ app.AppView = Backbone.View.extend({
 		} else {
 			this.$('.date-list').append(view.render().el);
 		}
-	},
-
-	// Calls function to add date entry list view for all journals
-	addAllDates: function() {
-		app.journals.each(this.addDateEntry, this);
 	},
 
 	// Creates and renders a new journal edit view
@@ -213,7 +206,6 @@ app.AppView = Backbone.View.extend({
 
 	// Displays user email and logout button
 	showUserInfo: function(user) {
-		console.log(user.email);
 		this.$('.user-info').html(user.email);
 		this.$userInfoBox.show();
 	},
